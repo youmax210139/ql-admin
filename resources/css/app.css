@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+input,
+select {
+    /* color: $input-text-color  !important; */
+    /* -webkit-text-fill-color: $input-text-color  !important; */
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+}
+
+[type='text']:focus,
+[type='email']:focus,
+[type='url']:focus,
+[type='password']:focus,
+[type='number']:focus,
+[type='date']:focus,
+[type='datetime-local']:focus,
+[type='month']:focus,
+[type='search']:focus,
+[type='tel']:focus,
+[type='time']:focus,
+[type='week']:focus,
+[multiple]:focus {
+    box-shadow: none !important;
+}

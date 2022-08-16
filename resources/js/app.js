@@ -3,14 +3,16 @@ import "../css/app.css";
 // Import icon libraries
 import "@quasar/extras/material-icons/material-icons.css";
 // Import Quasar css
-import 'quasar/src/css/index.sass'
+import "quasar/src/css/index.sass";
 
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { InertiaProgress } from "@inertiajs/progress";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
-import { Quasar } from "quasar";
+import { Quasar, Loading } from "quasar";
+import createRules from "quasar-app-extension-vuelidate-rules/src/boot/register-vuelidate-rules";
+
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
@@ -23,11 +25,14 @@ createInertiaApp({
             import.meta.glob("./Pages/**/*.vue")
         ),
     setup({ el, app, props, plugin }) {
-        return createApp({ render: () => h(app, props) })
-            .use(plugin)
+        const VueApp = createApp({ render: () => h(app, props) });
+        createRules({ app: VueApp });
+        VueApp.use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(Quasar, {
-                plugins: { }, // import Quasar plugins and add here
+                plugins: {
+                    Loading,
+                }, // import Quasar plugins and add here
             })
             .mount(el);
     },

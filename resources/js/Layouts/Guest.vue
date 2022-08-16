@@ -1,18 +1,14 @@
-<script setup>
-import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue';
-import { Link } from '@inertiajs/inertia-vue3';
-</script>
-
 <template>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-        <div>
+    <q-layout class="min-h-screen flex flex-col items-center pt-6 px-4 bg-gray-100 sm:justify-center sm:pt-0">
+        <div class="mb-6">
             <Link href="/">
-                <BreezeApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
+                <ApplicationLogo class="w-20 h-20 mx-auto text-gray-500" />
             </Link>
         </div>
-
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-            <slot />
-        </div>
-    </div>
+        <slot />
+    </q-layout>
 </template>
+<script setup>
+import { Link } from '@inertiajs/inertia-vue3';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+</script>
