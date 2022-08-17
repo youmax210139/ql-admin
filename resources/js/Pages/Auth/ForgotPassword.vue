@@ -13,35 +13,46 @@
                     {{ status }}
                 </div>
 
-                <form @submit.prevent="submit" class="grid grid-col-1 gap-y-4">
+                <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="submit" ref="form$">
+                    <InputError :message="form.errors.email" />
                     <q-input v-model="form.email" label="Email" filled lazy-rules :rules="[
+                        $rules.required('Email is required'),
+                        $rules.email('should be email format'),
                     ]" />
 
-                    <!-- <BreezeInputError class="mt-2" :message="form.errors.email" /> -->
-
                     <div class="flex items-center justify-end">
-                        <q-btn label="Email Password Reset Link" :class="{ 'opacity-25': form.processing }"
-                            :disabled="form.processing" class="bg-black text-white"/>
+                        <q-btn type="submit" label="Email Password Reset Link" :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing" class="bg-black text-white" />
                     </div>
-                </form>
+                </q-form>
             </q-card-section>
         </q-card>
     </GuestLayout>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import { useQuasar } from 'quasar'
 import GuestLayout from '@/Layouts/Guest.vue';
+import InputError from '@/Components/InputError.vue';
 import { useForm, Head } from '@inertiajs/inertia-vue3';
 
 defineProps({
     status: String,
 });
 
+const $q = useQuasar();
+const form$ = ref(null);
 const form = useForm({
     email: '',
 });
 
 const submit = () => {
-    form.post(route('password.email'));
+    form$.value.validate();
+    form.clearErrors();
+    $q.loading.show();
+    form.post(route('password.email'), {
+        onFinish: () => $q.loading.hide(),
+    });
 };
 </script>

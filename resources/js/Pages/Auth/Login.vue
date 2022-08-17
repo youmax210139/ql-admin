@@ -5,17 +5,17 @@
                 <h3 class="text-sm text-center">Log in</h3>
             </q-card-section>
             <q-card-section>
-                <q-form class="grid grid-col-1 gap-y-4" @submit="submit" ref="form$">
+                <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="submit" ref="form$">
                     <div v-if="status" class="font-medium text-sm text-green-600">
                         {{ status }}
                     </div>
                     <InputError :message="form.errors.email" />
                     <InputError :message="form.errors.password" />
-                    <q-input v-model="form.email" label="Email" filled lazy-rules :rules="[
+                    <q-input v-model="form.email" label="Email" lazy-rules :rules="[
                         $rules.required('email is required'),
                         $rules.email('should be email format'),
                     ]" />
-                    <q-input v-model="form.password" label="Password" type="password" filled lazy-rules :rules="[
+                    <q-input v-model="form.password" label="Password" type="password" lazy-rules :rules="[
                         $rules.required('password is required'),
                     ]" />
                     <q-checkbox v-model="form.remember" label="Remember me" />

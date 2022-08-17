@@ -3,48 +3,57 @@
     <GuestLayout>
 
         <Head title="Register" />
+        <q-card class="w-full sm:max-w-md p-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <q-card-section>
+                <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="submit" ref="form$">
+                    <InputError :message="form.errors.password" />
+                    <InputError :message="form.errors.name" />
+                    <InputError :message="form.errors.email" />
+                    <InputError :message="form.errors.password_confirmation" />
 
-        <form @submit.prevent="submit">
-            <div>
-                <q-input label="Name" type="text" class="mt-1 block w-full" v-model="form.name" />
-                <BreezeInputError class="mt-2" :message="form.errors.name" />
-            </div>
+                    <q-input label="Name" type="text" v-model="form.name" lazy-rules :rules="[
+                        $rules.required('Name is required'),
+                    ]" />
 
-            <div class="mt-4">
-                <q-input label="Email" type="email" class="mt-1 block w-full" v-model="form.email" required
-                    autocomplete="username" />
-                <BreezeInputError class="mt-2" :message="form.errors.email" />
-            </div>
 
-            <div class="mt-4">
-                <q-input label="Password" type="password" class="mt-1 block w-full" v-model="form.password" required
-                    autocomplete="new-password" />
-                <BreezeInputError class="mt-2" :message="form.errors.password" />
-            </div>
+                    <q-input label="Email" type="email" v-model="form.email" lazy-rules :rules="[
+                        $rules.required('Email is required'),
+                        $rules.email('should be email format'),
+                    ]" />
 
-            <div class="mt-4">
-                <q-input label="Confirm Password" type="password" class="mt-1 block w-full"
-                    v-model="form.password_confirmation" required autocomplete="new-password" />
-                <BreezeInputError class="mt-2" :message="form.errors.password_confirmation" />
-            </div>
+                    <q-input label="Password" type="password" v-model="form.password" lazy-rules :rules="[
+                        $rules.required('Password is required'),
+                    ]" />
 
-            <div class="flex items-center justify-end mt-4">
-                <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                Already registered?
-                </Link>
+                    <q-input label="Confirm Password" type="password" v-model="form.password_confirmation" lazy-rules
+                        :rules="[
+                            $rules.required('Confirm Password is required'),
+                            $rules.sameAs(form.password, 'Confirm Password should be same as password field'),
+                        ]" />
 
-                <q-btn class="ml-4" label="Register" :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing" />
 
-            </div>
-        </form>
+                    <div class="flex items-center justify-end">
+                        <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900">
+                        Already registered?
+                        </Link>
+                        <q-btn type="submit" class="ml-4 bg-black text-white" label="Register"
+                            :disabled="form.processing" />
+                    </div>
+                </q-form>
+            </q-card-section>
+        </q-card>
     </GuestLayout>
 </template>
+
 <script setup>
+import { ref } from 'vue'
+import { useQuasar } from 'quasar'
 import GuestLayout from '@/Layouts/Guest.vue';
-import BreezeInputError from '@/Components/InputError.vue';
+import InputError from '@/Components/InputError.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 
+const $q = useQuasar();
+const form$ = ref(null);
 const form = useForm({
     name: '',
     email: '',
@@ -54,8 +63,11 @@ const form = useForm({
 });
 
 const submit = () => {
+    form$.value.validate();
+    form.clearErrors();
+    $q.loading.show();
     form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+        onFinish: () => $q.loading.hide(),
     });
 };
 </script>
