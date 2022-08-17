@@ -20,7 +20,7 @@
                     ]" />
                     <q-checkbox v-model="form.remember" label="Remember me" />
                     <div class="text-right">
-                        <a :href="route('password.request')"
+                        <a v-if="canResetPassword" :href="route('password.request')"
                             class="mr-4 underline underline-offset-1 hover:cursor-pointer">
                             Forgot your password?
                         </a>
