@@ -6,10 +6,10 @@
         <q-card class="w-full sm:max-w-md p-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <q-card-section>
                 <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="submit" ref="form$">
-                    <InputError :message="form.errors.password" />
-                    <InputError :message="form.errors.name" />
-                    <InputError :message="form.errors.email" />
-                    <InputError :message="form.errors.password_confirmation" />
+                    <alert-error :message="form.errors.password" />
+                    <alert-error :message="form.errors.name" />
+                    <alert-error :message="form.errors.email" />
+                    <alert-error :message="form.errors.password_confirmation" />
 
                     <q-input label="Name" type="text" v-model="form.name" lazy-rules :rules="[
                         $rules.required('Name is required'),
@@ -46,10 +46,10 @@
 </template>
 
 <script setup>
+import { AlertError } from '@/Components/Alert';
+import GuestLayout from '@/Layouts/Guest.vue';
 import { ref } from 'vue'
 import { useQuasar } from 'quasar'
-import GuestLayout from '@/Layouts/Guest.vue';
-import InputError from '@/Components/InputError.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 
 const $q = useQuasar();

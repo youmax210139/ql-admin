@@ -20,10 +20,9 @@
 
     <q-card class="mt-6">
       <q-form ref="form$" @submit.prevent="submit" class="p-4 grid grid-col-1 gap-y-4">
-        <InputError :message="form.errors.email" />
-        <InputError :message="form.errors.password" />
-        <InputError :message="form.errors.password_confirmation" />
-        <InputSuccess :message="status" />
+        <alert-error :message="form.errors.password" />
+        <alert-error :message="form.errors.password_confirmation" />
+        <alert-success :message="status" />
         <q-input label="Password" type="password" v-model="form.password" lazy-rules :rules="[
           $rules.required('Password is required'),
         ]" />
@@ -42,15 +41,14 @@
 </template>
 
 <script setup>
-import InputError from '@/Components/InputError.vue';
-import InputSuccess from '@/Components/InputSuccess.vue';
+import { AlertSuccess, AlertError } from '@/Components/Alert';
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';
 import { ref } from "vue";
 import { useQuasar } from "quasar";
 
 defineProps({
-    status: String,
+  status: String,
 });
 
 const $q = useQuasar();

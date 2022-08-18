@@ -9,12 +9,8 @@
         </div>
 
         <form @submit.prevent="submit">
-            <div>
-                <q-input label="Password" type="password" class="mt-1 block w-full" v-model="form.password" required
-                    autocomplete="current-password" autofocus />
-                <BreezeInputError class="mt-2" :message="form.errors.password" />
-            </div>
-
+            <alert-error :message="form.errors.password" />
+            <q-input label="Password" type="password" v-model="form.password" />
             <div class="flex justify-end mt-4">
                 <q-btn class="ml-4" label="Confirm" :disabled="form.processing" />
             </div>
@@ -22,8 +18,8 @@
     </GuestLayout>
 </template>
 <script setup>
+import { AlertError } from '@/Components/Alert';
 import GuestLayout from '@/Layouts/Guest.vue';
-import BreezeInputError from '@/Components/InputError.vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';
 
 const form = useForm({

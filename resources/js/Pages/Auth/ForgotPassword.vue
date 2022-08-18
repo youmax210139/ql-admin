@@ -8,21 +8,18 @@
                 Forgot your password? No problem. Just let us know your email address and
                 we will email you a password
                 reset link that will allow you to choose a new one.
-
-                <div v-if="status" class="font-medium text-sm text-green-600">
-                    {{ status }}
-                </div>
-
                 <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="submit" ref="form$">
-                    <InputError :message="form.errors.email" />
+                    <alert-error :message="form.errors.email" />
+                    <alert-success :message="status" />
                     <q-input v-model="form.email" label="Email" filled lazy-rules :rules="[
                         $rules.required('Email is required'),
                         $rules.email('should be email format'),
                     ]" />
 
                     <div class="flex items-center justify-end">
-                        <q-btn type="submit" label="Email Password Reset Link" :class="{ 'opacity-25': form.processing }"
-                            :disabled="form.processing" class="bg-black text-white" />
+                        <q-btn type="submit" label="Email Password Reset Link"
+                            :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
+                            class="bg-black text-white" />
                     </div>
                 </q-form>
             </q-card-section>
@@ -31,10 +28,10 @@
 </template>
 
 <script setup>
+import { AlertError, AlertSuccess } from '@/Components/Alert';
+import GuestLayout from '@/Layouts/Guest.vue';
 import { ref } from 'vue'
 import { useQuasar } from 'quasar'
-import GuestLayout from '@/Layouts/Guest.vue';
-import InputError from '@/Components/InputError.vue';
 import { useForm, Head } from '@inertiajs/inertia-vue3';
 
 defineProps({

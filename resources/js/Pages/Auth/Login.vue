@@ -6,11 +6,9 @@
             </q-card-section>
             <q-card-section>
                 <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="submit" ref="form$">
-                    <div v-if="status" class="font-medium text-sm text-green-600">
-                        {{ status }}
-                    </div>
-                    <InputError :message="form.errors.email" />
-                    <InputError :message="form.errors.password" />
+                    <alert-error :message="form.errors.email" />
+                    <alert-error :message="form.errors.password" />
+                    <alert-success :message="status" />
                     <q-input v-model="form.email" label="Email" lazy-rules :rules="[
                         $rules.required('email is required'),
                         $rules.email('should be email format'),
@@ -34,11 +32,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { AlertError, AlertSuccess } from '@/Components/Alert';
 import GuestLayout from '@/Layouts/Guest.vue';
+import { ref } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useQuasar } from 'quasar'
-import InputError from '@/Components/InputError.vue';
+
 
 defineProps({
     canResetPassword: Boolean,
