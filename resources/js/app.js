@@ -6,6 +6,7 @@ import "@quasar/extras/material-icons/material-icons.css";
 import "quasar/src/css/index.sass";
 
 import { createApp, h } from "vue";
+import { createPinia } from 'pinia'
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { InertiaProgress } from "@inertiajs/progress";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
@@ -25,10 +26,12 @@ createInertiaApp({
             import.meta.glob("./Pages/**/*.vue")
         ),
     setup({ el, app, props, plugin }) {
+        const pinia = createPinia();
         const VueApp = createApp({ render: () => h(app, props) });
         createRules({ app: VueApp });
         VueApp.use(plugin)
             .use(ZiggyVue, Ziggy)
+            .use(pinia)
             .use(Quasar, {
                 plugins: {
                     Loading,

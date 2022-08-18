@@ -1,14 +1,14 @@
 <template>
-    <q-drawer v-model="leftDrawerOpen" show-if-above elevated side="left">
+    <q-drawer v-model="store.show" show-if-above elevated side="left">
         <div class="h-full" :class="$q.dark.isActive ? 'bg-black text-white' : 'bg-white text-black'">
-            <Link :href="route('dashboard')" class="flex items-center px-6 py-4">
-                <app-logo class="mr-3 w-6 h-6 sm:h-8 sm:w-8 filter-white" alt="Logo" />
-                <span class="ml-3 text-xl font-semibold whitespace-nowrap">{{ $page.props.appName }}</span>
+            <Link :href="route('index')" class="flex items-center px-6 py-4">
+            <app-logo class="mr-3 w-6 h-6 sm:h-8 sm:w-8 filter-white" alt="Logo" />
+            <span class="ml-3 text-xl font-semibold whitespace-nowrap">{{ $page.props.appName }}</span>
             </Link>
             <q-scroll-area class="h-screen">
                 <q-list>
                     <q-item v-for="(item, k) in menus" :key="k" active-class="tab-active"
-                        class="q-ma-sm navigation-item" clickable v-ripple>
+                        class="q-ma-sm navigation-item" clickable :href="route(item.link)" v-ripple>
                         <q-item-section avatar>
                             <q-icon :name="item.icon" />
                         </q-item-section>
@@ -25,11 +25,12 @@
 import { ref, computed } from 'vue';
 import AppLogo from '@/Components/AppLogo.vue';
 import { Link } from '@inertiajs/inertia-vue3';
+import { useSidebarStore } from '@/Stores/sidebar';
 
-const leftDrawerOpen = ref(true);
+const store = useSidebarStore();
 const menus = ref([
-    { icon: "dashboard", title: "Home" },
-    { icon: "person", title: "Profile" },
+    { icon: "dashboard", title: "Home", link: 'index' },
+    { icon: "person", title: "Profile", link: 'profiles.index' },
 ]);
 </script>
 <style lang="scss" scoped>

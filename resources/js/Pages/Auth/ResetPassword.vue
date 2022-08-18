@@ -3,31 +3,30 @@
 
         <Head title="Reset Password" />
         <q-card class="w-full sm:max-w-md p-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-            <q-card-section>
-                <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="submit" ref="form$">
-                    <InputError :message="form.errors.email" />
-                    <InputError class="mt-2" :message="form.errors.password" />
-                    <InputError :message="form.errors.password_confirmation" />
-                    <q-input label="Email" type="email" v-model="form.email" lazy-rules :rules="[
-                        $rules.required('Email is required'),
-                        $rules.email('should be email format'),
+            <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="submit" ref="form$">
+                <InputError :message="form.errors.email" />
+                <InputError :message="form.errors.password" />
+                <InputError :message="form.errors.password_confirmation" />
+                <q-input label="Email" type="email" v-model="form.email" lazy-rules :rules="[
+                    $rules.required('Email is required'),
+                    $rules.email('should be email format'),
+                ]" />
+
+                <q-input label="Password" type="password" v-model="form.password" lazy-rules :rules="[
+                    $rules.required('Password is required'),
+                ]" />
+
+                <q-input label="Confirm Password" type="password" v-model="form.password_confirmation" lazy-rules
+                    :rules="[
+                        $rules.required('Confirm Password is required'),
+                        $rules.sameAs(form.password, 'Confirm Password should be same as password field'),
                     ]" />
 
-                    <q-input label="Password" type="password" v-model="form.password" lazy-rules :rules="[
-                        $rules.required('Password is required'),
-                    ]" />
-
-                    <q-input label="Confirm Password" type="password" v-model="form.password_confirmation" lazy-rules
-                        :rules="[
-                            $rules.required('Confirm Password is required'),
-                            $rules.sameAs(form.password, 'Confirm Password should be same as password field'),
-                        ]" />
-
-                    <div class="flex items-center justify-end">
-                        <q-btn type="submit" label="Reset Password" class="bg-black text-white" :disabled="form.processing" />
-                    </div>
-                </q-form>
-            </q-card-section>
+                <div class="flex items-center justify-end">
+                    <q-btn type="submit" label="Reset Password" class="bg-black text-white"
+                        :disabled="form.processing" />
+                </div>
+            </q-form>
         </q-card>
     </GuestLayout>
 </template>
