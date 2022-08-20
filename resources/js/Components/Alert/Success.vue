@@ -1,6 +1,5 @@
-
 <template>
-    <div v-show="message" class="flex p-4 mb-4 bg-green-100 rounded-lg dark:bg-green-200" role="alert">
+    <div v-show="modelValue" class="flex p-4 mb-4 bg-green-100 rounded-lg dark:bg-green-200" role="alert">
         <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5 text-green-700 dark:text-green-800" fill="currentColor"
             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"
@@ -9,9 +8,9 @@
         </svg>
         <span class="sr-only">Info</span>
         <div class="ml-3 text-sm font-medium text-green-700 dark:text-green-800">
-            {{ message }}
+            {{ modelValue }}
         </div>
-        <button type="button" @click="message = !message"
+        <button type="button" @click="$emit('update:modelValue', false)"
             class="ml-auto -mx-1.5 -my-1.5 bg-green-100 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8 dark:bg-green-200 dark:text-green-600 dark:hover:bg-green-300">
             <span class="sr-only">Close</span>
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -24,5 +23,6 @@
 </template>
 
 <script setup>
-defineProps(['message']);
+defineProps(["modelValue"]);
+defineEmits(["update:modelValue"]);
 </script>

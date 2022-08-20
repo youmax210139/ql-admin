@@ -20,9 +20,9 @@
 
     <q-card class="mt-6">
       <q-form ref="form$" @submit.prevent="submit" class="p-4 grid grid-col-1 gap-y-4">
-        <alert-error :message="form.errors.password" />
-        <alert-error :message="form.errors.password_confirmation" />
-        <alert-success :message="status" />
+        <alert-error v-model="form.errors.password" />
+        <alert-error v-model="form.errors.password_confirmation" />
+        <alert-success v-model="status" />
         <q-input label="Password" type="password" v-model="form.password" lazy-rules :rules="[
           $rules.required('Password is required'),
         ]" />

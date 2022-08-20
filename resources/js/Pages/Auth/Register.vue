@@ -6,10 +6,10 @@
         <q-card class="w-full sm:max-w-md p-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <q-card-section>
                 <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="submit" ref="form$">
-                    <alert-error :message="form.errors.password" />
-                    <alert-error :message="form.errors.name" />
-                    <alert-error :message="form.errors.email" />
-                    <alert-error :message="form.errors.password_confirmation" />
+                    <alert-error v-model="form.errors.password" />
+                    <alert-error v-model="form.errors.name" />
+                    <alert-error v-model="form.errors.email" />
+                    <alert-error v-model="form.errors.password_confirmation" />
 
                     <q-input label="Name" type="text" v-model="form.name" lazy-rules :rules="[
                         $rules.required('Name is required'),

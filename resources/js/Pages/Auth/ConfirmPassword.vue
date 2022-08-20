@@ -9,7 +9,7 @@
         </div>
 
         <form @submit.prevent="submit">
-            <alert-error :message="form.errors.password" />
+            <alert-error v-model="form.errors.password" />
             <q-input label="Password" type="password" v-model="form.password" />
             <div class="flex justify-end mt-4">
                 <q-btn class="ml-4" label="Confirm" :disabled="form.processing" />

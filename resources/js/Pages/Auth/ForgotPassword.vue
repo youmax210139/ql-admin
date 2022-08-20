@@ -9,8 +9,8 @@
                 we will email you a password
                 reset link that will allow you to choose a new one.
                 <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="submit" ref="form$">
-                    <alert-error :message="form.errors.email" />
-                    <alert-success :message="status" />
+                    <alert-error v-model="form.errors.email" />
+                    <alert-success v-model="status" />
                     <q-input v-model="form.email" label="Email" filled lazy-rules :rules="[
                         $rules.required('Email is required'),
                         $rules.email('should be email format'),

@@ -6,9 +6,9 @@
             </q-card-section>
             <q-card-section>
                 <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="submit" ref="form$">
-                    <alert-error :message="form.errors.email" />
-                    <alert-error :message="form.errors.password" />
-                    <alert-success :message="status" />
+                    <alert-error v-model="form.errors.email" />
+                    <alert-error v-model="form.errors.password" />
+                    <alert-success v-model="status" />
                     <q-input v-model="form.email" label="Email" lazy-rules :rules="[
                         $rules.required('email is required'),
                         $rules.email('should be email format'),

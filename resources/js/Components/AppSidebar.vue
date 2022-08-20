@@ -8,10 +8,10 @@
             <q-scroll-area class="h-screen">
                 <q-list>
                     <q-item v-for="(item, k) in menus" :key="k" active-class="tab-active"
-                        class="q-ma-sm navigation-item"
-                        :href="route(item.link)" 
-                        :class="{'bg-green-800 rounded-sm text-white': route().current() == item.link}"
-                         clickable 
+                        class="q-ma-sm navigation-item" 
+                        :href="route(item.link, item.params)"
+                        :class="{ 'bg-green-800 rounded-sm text-white': route().current() == item.link }"
+                        clickable
                         v-ripple>
                         <q-item-section avatar>
                             <q-icon :name="item.icon" />
@@ -35,7 +35,7 @@ const store = useSidebarStore();
 const menus = ref([
     { icon: "dashboard", title: "Home", link: 'index' },
     { icon: "account_circle", title: "Profile", link: 'profiles.index' },
-    { icon: "diversity_3", title: "User", link: 'users.index' },
+    { icon: "diversity_3", title: "User", link: 'users.index', params: { perPage: 10 } },
 ]);
 </script>
 <style lang="scss" scoped>
