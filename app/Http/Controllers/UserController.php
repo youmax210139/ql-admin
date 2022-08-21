@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Spatie\Url\Url;
 use Inertia\Inertia;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\User;
 use App\Http\Controllers\Controller;
@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return Inertia::render('User', [
+        return Inertia::render('Users/Index', [
             'status' => session('status'),
             'users' => QueryBuilder::for(User::class)
                 ->allowedFilters([
@@ -36,17 +36,54 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function create()
     {
-        // $request->validate([
-        //     'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        // ]);
+        return Inertia::render('Users/Create', [
+            'status' => session('status'),
+        ]);
+    }
 
-        // $user = auth()->user();
-        // $user->password = $request->password;
-        // $user->save();
-        // event(new PasswordReset($user));
+    public function store()
+    {
+        User::create(
+            request()->validate([
+                'name' => ['required', "unique:users,name", 'max:100'],
+                'email' => ['required', 'unique:users,email', 'max:100'],
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            ]),
+        );
 
-        // return back()->with('status', __(Password::PASSWORD_RESET));
+        return back()->with('status', __('status.store'));
+    }
+
+    public function edit(User $user)
+    {
+        return Inertia::render('Users/Edit', [
+            'status' => session('status'),
+            'user' => $user->only('id', 'name', 'email'),
+        ]);
+    }
+
+    public function update(User $user)
+    {
+        $user->update(
+            request()->validate([
+                'name' => ['required', "unique:users,name,{$user->id}", 'max:100'],
+                'email' => ['required', 'email', "unique:users,email,{$user->id}", 'max:100'],
+            ])
+        );
+
+        return back()->with('status', __('status.update'));
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        $params = Url::fromString(url()->previous())->getAllQueryParameters();
+        if (request()->last) {
+            $params['page'] = min(1, $params['page'] - 1);
+        }
+
+        return to_route('users.index', $params)->with('status', __('status.destroy'));
     }
 }

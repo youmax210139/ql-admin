@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/', DashboardController::class)->only(['index']);
     Route::resource('profiles', ProfileController::class)->only(['index', 'store']);
-    Route::resource('users', UserController::class)->only(['index', 'update']);
+    Route::resource('users', UserController::class);
 });
 
 require __DIR__ . '/auth.php';
