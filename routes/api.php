@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware([])->group(function () {
-    Route::get('/', function () {
-        echo 'pong';
-    });
-    // Route::post('login', [AuthenticatedSessionController::class, 'store']);
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
+
+    Route::resource('users', UserController::class)->only(['index', 'show']);
+});
+
+Route::middleware('guest')->group(function () {
+
+    Route::post('register', [RegisteredUserController::class, 'store']);
+
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+
+    // Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+    //     ->name('password.email');
+
+    // Route::post('reset-password', [NewPasswordController::class, 'store'])
+    //     ->name('password.update');
 });

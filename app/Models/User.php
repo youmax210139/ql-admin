@@ -60,4 +60,11 @@ class User extends Authenticatable
             get: fn ($value) => Carbon::parse($value)->format('Y-m-d H:i:s')
         );
     }
+
+    public function updatedAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Carbon::parse($value)->format('Y-m-d H:i:s')
+        );
+    }
 }

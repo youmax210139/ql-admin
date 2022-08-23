@@ -44,7 +44,28 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            //
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($request->host() == env('API_DOMAIN')) {
+            return response()->json([
+                'message' => $this->getExceptionMessage($e),
+                'code'    => 405
+            ], 200);
+        }
+
+        return parent::render($request, $e);
+    }
+
+    protected function getExceptionMessage(Throwable $e)
+    {
+        $class = get_class($e);
+        switch ($class) {
+            case 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException':
+                return 'Route not found!';
+        }
+        return $e->getMessage();
     }
 }
