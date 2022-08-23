@@ -10,7 +10,7 @@
                 reset link that will allow you to choose a new one.
                 <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="submit" ref="form$">
                     <alert-error v-model="form.errors.email" />
-                    <alert-success v-model="status" />
+                    <alert-success v-model="form.recentlySuccessful" :message="status" />
                     <q-input v-model="form.email" label="Email" filled lazy-rules :rules="[
                         $rules.required('Email is required'),
                         $rules.email('should be email format'),

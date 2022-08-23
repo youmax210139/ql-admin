@@ -6,7 +6,7 @@
     <bread-crumb :items="breadCrumbs" />
     <q-card class="w-full p-4 bg-white shadow-md overflow-hidden !rounded-t-none rounded-b-sm">
       <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="submit" ref="form$">
-        <alert-success v-model="status" />
+        <alert-success v-model="form.recentlySuccessful" :message="status" />
         <alert-error v-model="form.errors.name" />
         <alert-error v-model="form.errors.email" />
 

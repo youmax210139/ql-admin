@@ -4,7 +4,6 @@
   <AuthenticatedLayout>
     <PageHead title="User" @btn-add-click="btnAddClick" />
     <q-card class="!rounded-t-none lg:!rounded-t-sm">
-      <alert-success v-model="status" />
       <app-table :rows="users.data" :columns="columns" :pagination="users.pagination" @btn-add-click="btnAddClick"
         @btn-edit-click="btnEditClick" @btn-delete-click="btnDeleteClick">
         <template v-slot:filter="{ filter }">
@@ -19,7 +18,6 @@
 </template>
 
 <script setup>
-import { AlertSuccess, AlertError } from '@/Components/Alert';
 import AppTable from '@/Components/AppTable.vue';
 import PageHead from '@/Components/PageHead.vue';
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue';

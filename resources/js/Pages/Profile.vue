@@ -22,7 +22,7 @@
       <q-form ref="form$" @submit.prevent="submit" class="p-4 grid grid-col-1 gap-y-4">
         <alert-error v-model="form.errors.password" />
         <alert-error v-model="form.errors.password_confirmation" />
-        <alert-success v-model="status" />
+        <alert-success v-model="form.recentlySuccessful" :message="status" />
         <q-input label="Password" type="password" v-model="form.password" lazy-rules :rules="[
           $rules.required('Password is required'),
         ]" />
