@@ -15,7 +15,8 @@ abstract class BaseResource extends JsonResource
     public function with($request)
     {
         return [
-            'code' => 200
+            'code' => 200,
+            'msg' => 'success',
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\RegisteredUserController;
 use App\Http\Controllers\Api\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +21,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 
-    Route::apiResource('users', UserController::class)->only(['index', 'show']);
 });
 
 Route::middleware('guest')->group(function () {
@@ -29,6 +28,8 @@ Route::middleware('guest')->group(function () {
     Route::post('register', [RegisteredUserController::class, 'store']);
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
+
+    Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
 
     // Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
     //     ->name('password.email');

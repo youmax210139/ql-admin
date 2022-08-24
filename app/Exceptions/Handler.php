@@ -51,8 +51,8 @@ class Handler extends ExceptionHandler
     {
         if ($request->host() == env('API_DOMAIN')) {
             return response()->json([
-                'message' => $this->getExceptionMessage($e),
-                'code'    => 405
+                'msg' => $this->getExceptionMessage($e),
+                'code' => 405
             ], 200);
         }
 

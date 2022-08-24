@@ -15,7 +15,8 @@ abstract class BaseCollection extends ResourceCollection
     public function with($request)
     {
         return [
-            'code' => 200
+            'code' => 200,
+            'msg' => 'success',
         ];
     }
 }
