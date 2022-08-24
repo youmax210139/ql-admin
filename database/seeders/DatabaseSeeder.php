@@ -14,11 +14,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(30)->create();
         \App\Models\Admin::create([
             'name'  => 'admin',
             'email' => 'admin@gmail.com',
             'password' => 'P@ssw0rd'
         ]);
+        \App\Models\User::create([
+            'name'  => 'test1',
+            'email' => 'test1@gmail.com',
+            'password' => 'P@ssw0rd'
+        ]);
+        \App\Models\User::factory(30)->create();
+        $categories = [
+            'Korea',
+            'Japan',
+            'Sexy'
+        ];
+        foreach ($categories as $c) {
+            \App\Models\Category::create([
+                'name' => $c
+            ]);
+        }
     }
 }

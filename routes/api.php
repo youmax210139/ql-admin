@@ -21,7 +21,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 
-    Route::resource('users', UserController::class)->only(['index', 'show']);
+    Route::apiResource('users', UserController::class)->only(['index', 'show']);
 });
 
 Route::middleware('guest')->group(function () {

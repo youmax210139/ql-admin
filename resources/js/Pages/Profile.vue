@@ -5,7 +5,7 @@
     <q-card>
       <q-item class="!p-4">
         <q-item-section avatar>
-          <img class="w-28 h-28 !rounded-lg" src="https://cdn.quasar.dev/img/boy-avatar.png">
+          <img class="w-28 h-28 !rounded-lg" src="avatar.png">
         </q-item-section>
         <q-item-section>
           <q-item-label class="text-2xl text-bold">
