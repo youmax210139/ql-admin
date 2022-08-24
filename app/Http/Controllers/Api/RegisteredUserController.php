@@ -1,28 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\Admin;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules;
-use Inertia\Inertia;
+use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Users\Resource as UserResource;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     *
-     * @return \Inertia\Response
-     */
-    public function create()
-    {
-        return Inertia::render('Auth/Register');
-    }
-
     /**
      * Handle an incoming registration request.
      *
@@ -35,20 +23,18 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:admins',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $admin = Admin::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
         ]);
 
-        event(new Registered($admin));
+        event(new Registered($user));
 
-        Auth::login($admin);
-
-        return redirect(RouteServiceProvider::HOME);
+        return new UserResource($user);
     }
 }
