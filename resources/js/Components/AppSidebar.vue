@@ -37,6 +37,7 @@ const menus = ref([
     { icon: "account_circle", title: "Profile", link: 'profiles.index' },
     { icon: "diversity_3", title: "User", link: 'users.index', params: { perPage: 10 } },
     { icon: "category", title: "Categories", link: 'categories.index', params: { perPage: 10 } },
+    { icon: "inventory_2", title: "Products", link: 'products.index', params: { perPage: 10 } },
 ]);
 </script>
 <style lang="scss" scoped>

@@ -35,5 +35,6 @@ class DatabaseSeeder extends Seeder
                 'name' => $c
             ]);
         }
+        \App\Models\Product::factory(1)->create();
     }
 }
