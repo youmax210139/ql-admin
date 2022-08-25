@@ -36,8 +36,10 @@
 
     <template #body-cell-actions="props">
       <q-td :props="props" class="q-gutter-x-sm">
-        <q-btn icon="edit" size="md" color="secondary" flat dense @click="$emit('btn-edit-click', props.row)" />
-        <q-btn icon="delete" size="md" color="negative" flat dense @click="$emit('btn-delete-click', props.row)" />
+        <slot name="actions" v-bind="props">
+          <q-btn icon="edit" size="md" color="secondary" flat dense @click="$emit('btn-edit-click', props.row)" />
+          <q-btn icon="delete" size="md" color="negative" flat dense @click="$emit('btn-delete-click', props.row)" />
+        </slot>
       </q-td>
     </template>
 
@@ -45,7 +47,7 @@
       <q-card class="w-full my-2 !text-base">
         <q-list>
           <q-item v-for="col in props.cols.filter(col => col.name !== 'actions')" :key="col.name">
-            <q-item-section>
+            <q-item-section :class="col.classes">
               <q-item-label>{{ col.label }}</q-item-label>
             </q-item-section>
             <q-item-section side>
@@ -58,8 +60,12 @@
             </q-item-section>
             <q-item-section>
               <div class="text-right q-gutter-x-md">
-                <q-btn icon="edit" size="md" color="secondary" flat dense round @click="$emit('btn-edit-click', props.row)" />
-                <q-btn icon="delete" size="md" color="negative" flat dense round @click="$emit('btn-delete-click', props.row)" />
+                <slot name="actions" v-bind="props">
+                  <q-btn icon="edit" size="md" color="secondary" flat dense round
+                    @click="$emit('btn-edit-click', props.row)" />
+                  <q-btn icon="delete" size="md" color="negative" flat dense round
+                    @click="$emit('btn-delete-click', props.row)" />
+                </slot>
               </div>
             </q-item-section>
           </q-item>

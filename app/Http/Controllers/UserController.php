@@ -80,8 +80,10 @@ class UserController extends Controller
     {
         $user->delete();
         $params = Url::fromString(url()->previous())->getAllQueryParameters();
-        if (request()->last) {
+        if (request()->last && isset($params['page'])) {
             $params['page'] = min(1, $params['page'] - 1);
+        } else {
+            $params['page'] = 1;
         }
 
         return to_route('users.index', $params)->with('status', __('status.destroy'));
