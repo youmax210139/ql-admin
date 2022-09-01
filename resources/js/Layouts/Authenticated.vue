@@ -1,5 +1,8 @@
 <template>
-    <q-layout view="lHh Lpr lFf" class="bg-gray-100">
+    <q-layout
+        view="lHh Lpr lFf"
+        class="bg-gray-100"
+    >
         <app-header />
         <app-sidebar />
         <!-- Page Content -->
@@ -9,15 +12,10 @@
             </main>
         </q-page-container>
     </q-layout>
-
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import AppLogo from '@/Components/AppLogo.vue';
-import AppHeader from '@/Components/AppHeader.vue';
-import AppSidebar from '@/Components/AppSidebar.vue';
-import { Link } from '@inertiajs/inertia-vue3';
+import AppHeader from '@/Layouts/AppHeader.vue';
+import AppSidebar from '@/Layouts/AppSidebar.vue';
 
-const showingNavigationDropdown = ref(false);
 </script>

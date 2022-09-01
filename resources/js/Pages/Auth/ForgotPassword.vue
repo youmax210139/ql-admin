@@ -1,25 +1,40 @@
 <template>
+
+    <Head title="Forgot Password" />
     <GuestLayout>
-
-        <Head title="Forgot Password" />
         <q-card class="w-full sm:max-w-md p-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-
             <q-card-section class="text-sm text-gray-600 grid grid-col-1 gap-y-4">
                 Forgot your password? No problem. Just let us know your email address and
                 we will email you a password
                 reset link that will allow you to choose a new one.
-                <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="submit" ref="form$">
+                <q-form
+                    class="grid grid-col-1 gap-y-4"
+                    @submit.prevent="submit"
+                    ref="form$"
+                >
                     <alert-error v-model="form.errors.email" />
-                    <alert-success v-model="form.recentlySuccessful" :message="status" />
-                    <q-input v-model="form.email" label="Email" filled lazy-rules :rules="[
-                        $rules.required('Email is required'),
-                        $rules.email('should be email format'),
-                    ]" />
-
+                    <alert-success
+                        v-model="form.recentlySuccessful"
+                        :message="status"
+                    />
+                    <q-input
+                        v-model="form.email"
+                        label="Email"
+                        filled
+                        lazy-rules
+                        :rules="[
+                            $rules.required('Email is required'),
+                            $rules.email('should be email format'),
+                        ]"
+                    />
                     <div class="flex items-center justify-end">
-                        <q-btn type="submit" label="Email Password Reset Link"
-                            :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
-                            class="bg-black text-white" />
+                        <q-btn
+                            type="submit"
+                            label="Email Password Reset Link"
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
+                            class="bg-black text-white"
+                        />
                     </div>
                 </q-form>
             </q-card-section>
@@ -28,7 +43,7 @@
 </template>
 
 <script setup>
-import { AlertError, AlertSuccess } from '@/Components/Alert';
+import { AlertError, AlertSuccess } from '@/Components';
 import GuestLayout from '@/Layouts/Guest.vue';
 import { ref } from 'vue'
 import { useQuasar } from 'quasar'

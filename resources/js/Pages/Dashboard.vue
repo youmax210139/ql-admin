@@ -1,4 +1,5 @@
 <template>
+
     <Head title="Dashboard" />
     <AuthenticatedLayout>
         <q-card>
@@ -6,7 +7,6 @@
                 You're logged in!
             </q-card-section>
         </q-card>
-
     </AuthenticatedLayout>
 </template>
 

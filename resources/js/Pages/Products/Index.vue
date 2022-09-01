@@ -40,7 +40,6 @@ const columns = [
   { name: 'description', label: 'Description', field: "description", sortable: false, classes: "text-ellipsis overflow-hidden max-w-xs" },
   { name: 'price', label: 'Price', field: "price", sortable: true },
   { name: 'published_at', label: 'Published time', field: "published_at", sortable: true },
-  { name: 'created_at', label: 'Created time', field: "created_at", sortable: true },
   { name: 'actions', label: 'Action', field: "actions", sortable: false },
 ]
 const $q = useQuasar();

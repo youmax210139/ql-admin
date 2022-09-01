@@ -1,18 +1,36 @@
 <template>
-    <q-drawer v-model="store.show" show-if-above elevated side="left">
-        <div class="h-full" :class="$q.dark.isActive ? 'bg-black text-white' : 'bg-white text-black'">
-            <Link :href="route('index')" class="flex items-center px-6 py-4">
-            <app-logo class="mr-3 w-6 h-6 sm:h-8 sm:w-8 filter-white" alt="Logo" />
+    <q-drawer
+        v-model="store.show"
+        show-if-above
+        elevated
+        side="left"
+    >
+        <div
+            class="h-full"
+            :class="$q.dark.isActive ? 'bg-black text-white' : 'bg-white text-black'"
+        >
+            <Link
+                :href="route('index')"
+                class="flex items-center px-6 py-4"
+            >
+            <app-logo
+                class="mr-3 w-6 h-6 sm:h-8 sm:w-8 filter-white"
+                alt="Logo"
+            />
             <span class="ml-3 text-xl font-semibold whitespace-nowrap">{{ $page.props.appName }}</span>
             </Link>
             <q-scroll-area class="h-screen">
                 <q-list>
-                    <q-item v-for="(item, k) in menus" :key="k" active-class="tab-active"
-                        class="q-ma-sm navigation-item" 
+                    <q-item
+                        v-for="(item, k) in menus"
+                        :key="k"
+                        active-class="tab-active"
+                        class="q-ma-sm navigation-item"
                         :href="route(item.link, item.params)"
                         :class="{ 'bg-green-800 rounded-sm text-white': route().current() == item.link }"
                         clickable
-                        v-ripple>
+                        v-ripple
+                    >
                         <q-item-section avatar>
                             <q-icon :name="item.icon" />
                         </q-item-section>
@@ -26,7 +44,7 @@
     </q-drawer>
 </template>
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import AppLogo from '@/Components/AppLogo.vue';
 import { Link } from '@inertiajs/inertia-vue3';
 import { useSidebarStore } from '@/Stores/sidebar';

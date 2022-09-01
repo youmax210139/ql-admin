@@ -6,14 +6,13 @@ import "@quasar/extras/material-icons/material-icons.css";
 import "quasar/src/css/index.sass";
 
 import { createApp, h } from "vue";
-import { createPinia } from 'pinia'
+import { createPinia } from "pinia";
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { InertiaProgress } from "@inertiajs/progress";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import { Quasar, Loading, Dialog } from "quasar";
 import createRules from "quasar-app-extension-vuelidate-rules/src/boot/register-vuelidate-rules";
-
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
@@ -35,7 +34,7 @@ createInertiaApp({
             .use(Quasar, {
                 plugins: {
                     Loading,
-                    Dialog
+                    Dialog,
                 }, // import Quasar plugins and add here
             })
             .mount(el);

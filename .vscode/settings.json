@@ -1,0 +1,15 @@
+{
+    "[vue]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "Vue.volar"
+    },
+    "javascript.format.enable": false,
+    "html.format.wrapAttributes": "force-expand-multiline",
+    "emmet.triggerExpansionOnTab": true,
+    "blade.format.enable": true,
+    "[blade]": {
+        "editor.autoClosingBrackets": "always"
+    },
+    "phpCodeSniffer.standardCustom": "./phpcs.xml",
+    "phpCodeSniffer.executable": "/home/laradock/.composer/vendor/bin/phpcs"
+}

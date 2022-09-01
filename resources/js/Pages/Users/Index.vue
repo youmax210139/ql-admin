@@ -2,15 +2,42 @@
 
   <Head title="User" />
   <AuthenticatedLayout>
-    <PageHead title="User" @btn-add-click="btnAddClick" />
+    <PageHead
+      title="User"
+      @btn-add-click="btnAddClick"
+    />
     <q-card class="!rounded-t-none lg:!rounded-t-sm">
-      <app-table :rows="users.data" :columns="columns" :pagination="users.pagination" @btn-add-click="btnAddClick"
-        @btn-edit-click="btnEditClick" @btn-delete-click="btnDeleteClick">
+      <app-table
+        :rows="users.data"
+        :columns="columns"
+        :pagination="users.pagination"
+        @btn-add-click="btnAddClick"
+        @btn-edit-click="btnEditClick"
+        @btn-delete-click="btnDeleteClick"
+      >
         <template v-slot:filter="{ filter }">
-          <q-input class="w-full md:w-auto" filled borderless dense debounce="300" v-model="filter.name"
-            placeholder="Name" clearable clear-icon="close" />
-          <q-input class="w-full md:w-auto" filled borderless dense debounce="300" v-model="filter.email"
-            placeholder="Email" clearable clear-icon="close" />
+          <q-input
+            class="w-full md:w-auto"
+            filled
+            borderless
+            dense
+            debounce="300"
+            v-model="filter.name"
+            placeholder="Name"
+            clearable
+            clear-icon="close"
+          />
+          <q-input
+            class="w-full md:w-auto"
+            filled
+            borderless
+            dense
+            debounce="300"
+            v-model="filter.email"
+            placeholder="Email"
+            clearable
+            clear-icon="close"
+          />
         </template>
       </app-table>
     </q-card>
@@ -18,8 +45,7 @@
 </template>
 
 <script setup>
-import AppTable from '@/Components/AppTable.vue';
-import PageHead from '@/Components/PageHead.vue';
+import { AppTable, PageHead } from '@/Components';
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia'
