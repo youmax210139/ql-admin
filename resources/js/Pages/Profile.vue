@@ -65,7 +65,7 @@
 </template>
 
 <script setup>
-import { AlertSuccess, AlertError } from '@/Components/Alert';
+import { AlertSuccess, AlertError } from '@/Components';
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';
 import { ref } from "vue";

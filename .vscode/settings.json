@@ -1,7 +1,7 @@
 {
     "[vue]": {
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "Vue.volar"
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "javascript.format.enable": false,
     "html.format.wrapAttributes": "force-expand-multiline",

@@ -23,6 +23,7 @@ select {
 [type='tel']:focus,
 [type='time']:focus,
 [type='week']:focus,
-[multiple]:focus {
+[multiple]:focus,
+textarea:focus {
     box-shadow: none !important;
 }
