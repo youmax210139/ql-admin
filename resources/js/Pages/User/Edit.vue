@@ -1,7 +1,7 @@
 <template>
-    <Head title="Edit Category" />
+    <Head title="Edit User" />
     <AuthenticatedLayout>
-        <page-head title="Edit Category" :btnAddShow="false" />
+        <page-head title="Edit User" :btnAddShow="false" />
         <bread-crumb :items="breadCrumbs" />
         <q-card
             class="w-full p-4 bg-white shadow-md overflow-hidden !rounded-t-none rounded-b-sm"
@@ -11,17 +11,22 @@
                 @submit.prevent="submit"
                 ref="form$"
             >
-                <alert-success
-                    v-model="form.recentlySuccessful"
-                    :message="status"
-                />
-                <alert-error v-model="form.errors.name" />
                 <q-input
                     label="Name"
                     type="text"
                     v-model="form.name"
                     lazy-rules
                     :rules="[$rules.required('Name is required')]"
+                />
+                <q-input
+                    label="Email"
+                    type="email"
+                    v-model="form.email"
+                    lazy-rules
+                    :rules="[
+                        $rules.required('Email is required'),
+                        $rules.email('should be email format'),
+                    ]"
                 />
                 <div class="flex items-center justify-end">
                     <q-btn
@@ -37,34 +42,41 @@
 </template>
 
 <script setup>
-import { AlertSuccess, AlertError, PageHead, BreadCrumb } from "@/Components";
+import { PageHead, BreadCrumb } from "@/Components";
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import { Head, useForm } from "@inertiajs/inertia-vue3";
+import { Head, useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
-import { useQuasar } from "quasar";
+import { useQuasar, Notify } from "quasar";
 
 const props = defineProps({
     status: String,
-    category: Object,
+    user: Object,
 });
 
 const breadCrumbs = [
     { label: "", icon: "home", link: route("index") },
-    { label: "Categories", icon: "category", link: route("categories.index") },
+    { label: "Users", icon: "diversity_3", link: route("users.index") },
 ];
 
 const $q = useQuasar();
 const form$ = ref(null);
 const form = useForm({
-    name: props.category.name,
+    name: props.user.name,
+    email: props.user.email,
 });
 
 const submit = () => {
     form$.value.validate();
     form.clearErrors();
     $q.loading.show();
-    form.put(route("categories.update", props.category.id), {
+    form.put(route("users.update", props.user.id), {
         onFinish: () => $q.loading.hide(),
+        onError(err) {
+            Notify.create({
+                message: Object.values(err)[0],
+                type: "negative",
+            });
+        },
     });
 };
 </script>

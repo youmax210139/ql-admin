@@ -1,8 +1,46 @@
+<script setup>
+import { PageHead, BreadCrumb, FileUploader } from "@/Components";
+import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
+import { Head, useForm } from "@inertiajs/vue3";
+import { ref } from "vue";
+import { useQuasar } from "quasar";
+
+const props = defineProps({
+    status: String,
+    product: Object,
+});
+
+const breadCrumbs = [
+    { label: "", icon: "home", link: route("index") },
+    { label: "Products", icon: "inventory_2", link: route("products.index") },
+];
+const $q = useQuasar();
+const form$ = ref(null);
+const form = useForm({
+    ...props.product,
+    photos: [],
+    preview: props.product.photos,
+    _method: "put",
+});
+
+console.log(form);
+
+const submit = () => {
+    console.log(form.photos);
+    form$.value.validate();
+    form.clearErrors();
+    $q.loading.show();
+    form.post(route("products.update", props.product.id), {
+        onFinish: () => $q.loading.hide(),
+    });
+};
+</script>
+
 <template>
     <Head title="Edit Product" />
     <AuthenticatedLayout>
-        <page-head title="Edit Product" :btnAddShow="false" />
-        <bread-crumb :items="breadCrumbs" />
+        <PageHead title="Edit Product" :btnAddShow="false" />
+        <BreadCrumb :items="breadCrumbs" />
         <q-card
             class="w-full p-4 bg-white shadow-md overflow-hidden !rounded-t-none rounded-b-sm"
         >
@@ -11,15 +49,6 @@
                 @submit.prevent="submit"
                 ref="form$"
             >
-                <alert-success
-                    v-model="form.recentlySuccessful"
-                    :message="status"
-                />
-                <alert-error v-model="form.errors.name" />
-                <alert-error v-model="form.errors.title" />
-                <alert-error v-model="form.errors.description" />
-                <alert-error v-model="form.errors.photos" />
-
                 <q-input
                     label="Name"
                     type="text"
@@ -59,47 +88,3 @@
         </q-card>
     </AuthenticatedLayout>
 </template>
-
-<script setup>
-import {
-    AlertSuccess,
-    AlertError,
-    PageHead,
-    BreadCrumb,
-    FileUploader,
-} from "@/Components";
-import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import { Head, useForm } from "@inertiajs/inertia-vue3";
-import { ref } from "vue";
-import { useQuasar } from "quasar";
-
-const props = defineProps({
-    status: String,
-    product: Object,
-});
-
-const breadCrumbs = [
-    { label: "", icon: "home", link: route("index") },
-    { label: "Products", icon: "inventory_2", link: route("products.index") },
-];
-const $q = useQuasar();
-const form$ = ref(null);
-const form = useForm({
-    ...props.product,
-    photos: [],
-    preview: props.product.photos,
-    _method: "put",
-});
-
-console.log(form);
-
-const submit = () => {
-    console.log(form.photos);
-    form$.value.validate();
-    form.clearErrors();
-    $q.loading.show();
-    form.post(route("products.update", props.product.id), {
-        onFinish: () => $q.loading.hide(),
-    });
-};
-</script>

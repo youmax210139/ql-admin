@@ -1,41 +1,82 @@
-<template>
+<script setup>
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+import { Head, router } from "@inertiajs/vue3";
+import { useQuasar, Notify } from "quasar";
+import { useForm } from "vee-validate";
+import * as yup from "yup";
 
+defineProps({
+    canResetPassword: {
+        type: Boolean,
+    },
+    status: {
+        type: String,
+    },
+});
+const $q = useQuasar();
+
+const schema = yup.object({
+    email: yup.string().required().email().label("Email address"),
+    password: yup.string().required().min(6).label("Password"),
+    remember: yup.boolean().label("Remember"),
+});
+
+const { meta, defineComponentBinds, handleSubmit, isSubmitting } = useForm({
+    validationSchema: schema,
+    initialValues: {
+        email: "",
+        password: "",
+        remember: false,
+    },
+});
+
+const quasarConfig = (state) => ({
+    props: {
+        error: !!state.errors[0],
+        "error-message": state.errors[0],
+    },
+});
+const email = defineComponentBinds("email", quasarConfig);
+const password = defineComponentBinds("password", quasarConfig);
+const remember = defineComponentBinds("remember", quasarConfig);
+
+const onSubmit = handleSubmit((form) => {
+    $q.loading.show();
+    router.post(route("login"), form, {
+        onFinish: () => {
+            $q.loading.hide();
+        },
+        onError(err) {
+            Notify.create({
+                message: Object.values(err)[0],
+                type: "negative",
+            });
+        },
+    });
+});
+</script>
+
+<template>
     <Head title="Login" />
     <GuestLayout>
-        <q-card class="w-full sm:max-w-md p-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+        <q-card
+            class="w-full sm:max-w-md p-4 bg-white shadow-md overflow-hidden sm:rounded-lg"
+        >
             <q-card-section>
                 <h3 class="text-sm text-center">Log in</h3>
             </q-card-section>
             <q-card-section>
                 <q-form
                     class="grid grid-col-1 gap-y-4"
-                    @submit.prevent="submit"
-                    ref="form$"
+                    @submit.prevent="onSubmit"
                 >
-                    <alert-error v-model="form.errors.email" />
-                    <alert-error v-model="form.errors.password" />
+                    <q-input v-bind="email" label="Email" />
                     <q-input
-                        v-model="form.email"
-                        label="Email"
-                        lazy-rules
-                        :rules="[
-                            $rules.required('email is required'),
-                            $rules.email('should be email format'),
-                        ]"
-                    />
-                    <q-input
-                        v-model="form.password"
+                        v-bind="password"
                         label="Password"
                         type="password"
-                        lazy-rules
-                        :rules="[
-                            $rules.required('password is required'),
-                        ]"
                     />
-                    <q-checkbox
-                        v-model="form.remember"
-                        label="Remember me"
-                    />
+                    <q-checkbox v-bind="remember" label="Remember me" />
                     <div class="text-right">
                         <a
                             v-if="canResetPassword"
@@ -47,8 +88,8 @@
                         <q-btn
                             label="Log in"
                             type="submit"
-                            :disable="form.processing"
-                            class="bg-black text-white login"
+                            :disable="!meta.valid || isSubmitting"
+                            class="bg-black text-white"
                         />
                     </div>
                 </q-form>
@@ -56,45 +97,3 @@
         </q-card>
     </GuestLayout>
 </template>
-
-<script setup>
-import { AlertError } from '@/Components';
-import GuestLayout from '@/Layouts/Guest.vue';
-import { ref } from 'vue'
-import { useForm, Head } from '@inertiajs/inertia-vue3';
-import { useQuasar } from 'quasar'
-
-defineProps({
-    canResetPassword: Boolean,
-    status: String,
-});
-const $q = useQuasar();
-const form$ = ref(null);
-const form = useForm({
-    email: '',
-    password: '',
-    remember: false
-});
-
-const submit = () => {
-    form$.value.validate();
-    form.clearErrors();
-    $q.loading.show();
-    form.post(route('login'), {
-        onFinish: () => $q.loading.hide()
-    });
-
-};
-</script>
-
-<style lang="scss" scoped>
-h3.text-sm {
-    font-size: 20px;
-}
-
-.q-btn.login {
-    padding-left: 1.4rem;
-    padding-right: 1.4rem;
-    border-radius: 0.5rem;
-}
-</style>

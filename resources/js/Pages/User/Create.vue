@@ -1,27 +1,33 @@
 <template>
-    <Head title="Profile" />
+    <Head title="Create User" />
     <AuthenticatedLayout>
-        <q-card>
-            <q-item class="!p-4">
-                <q-item-section avatar>
-                    <img class="w-28 h-28 !rounded-lg" src="avatar.png" />
-                </q-item-section>
-                <q-item-section>
-                    <q-item-label class="text-2xl text-bold">
-                        {{ $page.props.auth.user.name }}
-                    </q-item-label>
-                    <q-item-label class="text-lg">
-                        {{ $page.props.auth.user.email }}
-                    </q-item-label>
-                </q-item-section>
-            </q-item>
-        </q-card>
-        <q-card class="mt-6">
+        <page-head title="Create User" :btnAddShow="false" />
+        <bread-crumb :items="breadCrumbs" />
+        <q-card
+            class="w-full p-4 bg-white shadow-md overflow-hidden !rounded-t-none rounded-b-sm"
+        >
             <q-form
-                ref="form$"
+                class="grid grid-col-1 gap-y-4"
                 @submit.prevent="submit"
-                class="p-4 grid grid-col-1 gap-y-4"
+                ref="form$"
             >
+                <q-input
+                    label="Name"
+                    type="text"
+                    v-model="form.name"
+                    lazy-rules
+                    :rules="[$rules.required('Name is required')]"
+                />
+                <q-input
+                    label="Email"
+                    type="email"
+                    v-model="form.email"
+                    lazy-rules
+                    :rules="[
+                        $rules.required('Email is required'),
+                        $rules.email('should be email format'),
+                    ]"
+                />
                 <q-input
                     label="Password"
                     type="password"
@@ -45,8 +51,8 @@
                 <div class="flex items-center justify-end">
                     <q-btn
                         type="submit"
-                        label="Save"
-                        class="!bg-gray-700 text-white"
+                        class="ml-4 bg-black text-white"
+                        label="Submit"
                         :disabled="form.processing"
                     />
                 </div>
@@ -56,27 +62,35 @@
 </template>
 
 <script setup>
+import { PageHead, BreadCrumb } from "@/Components";
 import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import { Head, useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 import { useQuasar, Notify } from "quasar";
 
-defineProps({
+const props = defineProps({
     status: String,
 });
+
+const breadCrumbs = [
+    { label: "", icon: "home", link: route("index") },
+    { label: "Users", icon: "diversity_3", link: route("users.index") },
+];
 
 const $q = useQuasar();
 const form$ = ref(null);
 const form = useForm({
+    name: "",
+    email: "",
     password: "",
     password_confirmation: "",
 });
 
-function submit() {
+const submit = () => {
     form$.value.validate();
     form.clearErrors();
     $q.loading.show();
-    form.post(route("profiles.store"), {
+    form.post(route("users.store"), {
         onFinish: () => $q.loading.hide(),
         onError(err) {
             Notify.create({
@@ -85,5 +99,5 @@ function submit() {
             });
         },
     });
-}
+};
 </script>
