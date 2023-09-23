@@ -1,9 +1,8 @@
 <script setup>
 import { AppTable, PageHead } from "@/Components";
-import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import { Head } from "@inertiajs/vue3";
-import { router } from "@inertiajs/vue3";
-import { useQuasar } from "quasar";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import { Head, router } from "@inertiajs/vue3";
+import { useQuasar, Loading } from "quasar";
 
 const props = defineProps({
     status: String,
@@ -20,14 +19,15 @@ const columns = [
     },
     { name: "actions", label: "Action", field: "actions", sortable: false },
 ];
+
 const $q = useQuasar();
 
 function btnAddClick() {
-    window.location = route("categories.create");
+    window.location = route("category.create");
 }
 
 function btnEditClick(row) {
-    window.location = route("categories.edit", row.id);
+    window.location = route("category.edit", row.id);
 }
 
 function btnDeleteClick(row) {
@@ -37,8 +37,9 @@ function btnDeleteClick(row) {
         cancel: true,
         persistent: true,
     }).onOk(() => {
-        Inertia.post(
-            route("categories.destroy", row.id),
+        Loading.show();
+        router.post(
+            route("category.destroy", row.id),
             {
                 _method: "delete",
                 last: props.categories.total == props.categories.from,

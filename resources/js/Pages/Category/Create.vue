@@ -1,8 +1,8 @@
 <script setup>
 import { PageHead, BreadCrumb } from "@/Components";
-import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, router } from "@inertiajs/vue3";
-import { useQuasar, Notify } from "quasar";
+import { Loading } from "quasar";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 
@@ -11,11 +11,9 @@ const props = defineProps({
 });
 
 const breadCrumbs = [
-    { label: "", icon: "home", link: route("index") },
-    { label: "Categories", icon: "category", link: route("categories.index") },
+    { label: "", icon: "home", link: "/" },
+    { label: "Category", icon: "category", link: route("category.index") },
 ];
-
-const $q = useQuasar();
 
 const schema = yup.object({
     name: yup.string().required().label("Category name"),
@@ -37,16 +35,8 @@ const quasarConfig = (state) => ({
 const name = defineComponentBinds("name", quasarConfig);
 
 const onSubmit = handleSubmit((form) => {
-    $q.loading.show();
-    router.post(route("category.store"), form, {
-        onFinish: () => $q.loading.hide(),
-        onError(err) {
-            Notify.create({
-                message: Object.values(err)[0],
-                type: "negative",
-            });
-        },
-    });
+    Loading.show();
+    router.post(route("category.store"), form);
 });
 </script>
 

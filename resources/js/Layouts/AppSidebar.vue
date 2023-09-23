@@ -6,7 +6,7 @@
                 $q.dark.isActive ? 'bg-black text-white' : 'bg-white text-black'
             "
         >
-            <Link :href="route('index')" class="flex items-center px-6 py-4">
+            <Link href="/" class="flex items-center px-6 py-4">
                 <ApplicationLogo
                     class="mr-3 w-6 h-6 sm:h-8 sm:w-8 filter-white"
                     alt="Logo"
@@ -50,24 +50,23 @@ import { useSidebarStore } from "@/Stores/sidebar";
 
 const store = useSidebarStore();
 const menus = ref([
-    { icon: "dashboard", title: "Home", link: "index" },
-    { icon: "account_circle", title: "Profile", link: "profiles.index" },
+    { icon: "dashboard", title: "Home", link: "dashboard.index" },
     {
         icon: "diversity_3",
         title: "User",
-        link: "users.index",
+        link: "user.index",
         params: { perPage: 10 },
     },
     {
         icon: "category",
-        title: "Categories",
-        link: "categories.index",
+        title: "Category",
+        link: "category.index",
         params: { perPage: 10 },
     },
     {
         icon: "inventory_2",
-        title: "Products",
-        link: "products.index",
+        title: "Product",
+        link: "product.index",
         params: { perPage: 10 },
     },
 ]);

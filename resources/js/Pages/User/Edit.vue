@@ -54,7 +54,7 @@ const props = defineProps({
 });
 
 const breadCrumbs = [
-    { label: "", icon: "home", link: route("index") },
+    { label: "", icon: "home", link: "/" },
     { label: "Users", icon: "diversity_3", link: route("users.index") },
 ];
 

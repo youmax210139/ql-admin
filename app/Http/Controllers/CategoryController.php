@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Categories/Index', [
+        return Inertia::render('Category/Index', [
             'status' => session('status'),
             'categories' => QueryBuilder::for(Category::class)
                 ->allowedFilters([
@@ -29,7 +29,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return Inertia::render('Categories/Create', [
+        return Inertia::render('Category/Create', [
             'status' => session('status'),
         ]);
     }
@@ -47,7 +47,7 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        return Inertia::render('Categories/Edit', [
+        return Inertia::render('Category/Edit', [
             'status' => session('status'),
             'category' => $category->only('id', 'name'),
         ]);
@@ -74,6 +74,6 @@ class CategoryController extends Controller
             $params['page'] = 1;
         }
 
-        return to_route('categories.index', $params)->with('status', __('status.destroy'));
+        return to_route('category.index', $params)->with('status', __('status.destroy'));
     }
 }

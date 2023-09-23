@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Users/Index', [
+        return Inertia::render('User/Index', [
             'status' => session('status'),
             'users' => QueryBuilder::for(User::class)
                 ->allowedFilters([
@@ -38,7 +38,7 @@ class UserController extends Controller
 
     public function create()
     {
-        return Inertia::render('Users/Create', [
+        return Inertia::render('User/Create', [
             'status' => session('status'),
         ]);
     }
@@ -58,7 +58,7 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return Inertia::render('Users/Edit', [
+        return Inertia::render('User/Edit', [
             'status' => session('status'),
             'user' => $user->only('id', 'name', 'email'),
         ]);
@@ -86,6 +86,6 @@ class UserController extends Controller
             $params['page'] = 1;
         }
 
-        return to_route('users.index', $params)->with('status', __('status.destroy'));
+        return to_route('user.index', $params)->with('status', __('status.destroy'));
     }
 }

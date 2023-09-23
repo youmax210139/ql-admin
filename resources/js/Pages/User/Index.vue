@@ -1,3 +1,56 @@
+<script setup>
+import { AppTable, PageHead } from "@/Components";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import { Head, router } from "@inertiajs/vue3";
+import { useQuasar } from "quasar";
+
+const props = defineProps({
+    status: String,
+    users: Object,
+});
+
+const columns = [
+    { name: "name", label: "Name", field: "name", sortable: true },
+    { name: "email", label: "Email", field: "email", sortable: true },
+    {
+        name: "created_at",
+        label: "Created time",
+        field: "created_at",
+        sortable: true,
+    },
+    { name: "actions", label: "Action", field: "actions", sortable: false },
+];
+const $q = useQuasar();
+
+function btnAddClick() {
+    window.location = route("user.create");
+}
+
+function btnEditClick(row) {
+    window.location = route("user.edit", row.id);
+}
+
+function btnDeleteClick(row) {
+    $q.dialog({
+        title: "Confirm",
+        message: `Would you like to remove [${row.name}]?`,
+        cancel: true,
+        persistent: true,
+    }).onOk(() => {
+        router.post(
+            route("user.destroy", row.id),
+            {
+                _method: "delete",
+                last: props.users.total == props.users.from,
+            },
+            {
+                preserveState: false,
+            }
+        );
+    });
+}
+</script>
+
 <template>
     <Head title="User" />
     <AuthenticatedLayout>
@@ -39,57 +92,3 @@
         </q-card>
     </AuthenticatedLayout>
 </template>
-
-<script setup>
-import { AppTable, PageHead } from "@/Components";
-import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
-import { Head } from "@inertiajs/vue3";
-import { router } from "@inertiajs/vue3";
-import { useQuasar } from "quasar";
-
-const props = defineProps({
-    status: String,
-    users: Object,
-});
-
-const columns = [
-    { name: "name", label: "Name", field: "name", sortable: true },
-    { name: "email", label: "Email", field: "email", sortable: true },
-    {
-        name: "created_at",
-        label: "Created time",
-        field: "created_at",
-        sortable: true,
-    },
-    { name: "actions", label: "Action", field: "actions", sortable: false },
-];
-const $q = useQuasar();
-
-function btnAddClick() {
-    window.location = route("users.create");
-}
-
-function btnEditClick(row) {
-    window.location = route("users.edit", row.id);
-}
-
-function btnDeleteClick(row) {
-    $q.dialog({
-        title: "Confirm",
-        message: `Would you like to remove [${row.name}]?`,
-        cancel: true,
-        persistent: true,
-    }).onOk(() => {
-        Inertia.post(
-            route("users.destroy", row.id),
-            {
-                _method: "delete",
-                last: props.users.total == props.users.from,
-            },
-            {
-                preserveState: false,
-            }
-        );
-    });
-}
-</script>
