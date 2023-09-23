@@ -20,12 +20,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::resource('/', DashboardController::class)->only(['index']);
-    Route::resource('profiles', ProfileController::class)->only(['index', 'store']);
-    Route::resource('users', UserController::class);
-    Route::resource('categories', CategoryController::class);
-    Route::resource('products', ProductController::class);
-    Route::resource('files', FileController::class)->where(['file' => '.*'])->only('show');
+    Route::resource('dashboard', DashboardController::class)->only(['index']);
+    Route::resource('profile', ProfileController::class)->except(['index']);
+    Route::resource('user', UserController::class);
+    Route::resource('category', CategoryController::class);
+    Route::resource('product', ProductController::class);
+    Route::resource('file', FileController::class)->where(['file' => '.*'])->only('show');
 });
 
 require __DIR__ . '/auth.php';
