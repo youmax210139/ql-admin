@@ -65,9 +65,12 @@ const onSubmit = handleSubmit((form) => {
         <page-head title="Create User" :btnAddShow="false" />
         <bread-crumb :items="breadCrumbs" />
         <q-card
-            class="w-full p-4 bg-white shadow-md overflow-hidden !rounded-t-none rounded-b-sm"
+            class="tw-w-full tw-p-4 tw-bg-white tw-shadow-md tw-overflow-hidden !tw-rounded-t-none tw-rounded-b-sm"
         >
-            <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="onSubmit">
+            <q-form
+                class="tw-grid tw-grid-col-1 tw-gap-y-4"
+                @submit.prevent="onSubmit"
+            >
                 <q-input label="Name" type="text" v-bind="name" />
                 <q-input label="Email" type="email" v-bind="email" />
                 <q-input label="Password" type="password" v-bind="password" />
@@ -79,7 +82,7 @@ const onSubmit = handleSubmit((form) => {
                 <div class="flex items-center justify-end">
                     <q-btn
                         type="submit"
-                        class="ml-4 bg-black text-white"
+                        class="tw-ml-4 tw-bg-black tw-text-white"
                         label="Submit"
                         :disable="!meta.valid || isSubmitting"
                     />

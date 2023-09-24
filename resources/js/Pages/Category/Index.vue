@@ -5,8 +5,12 @@ import { Head, router } from "@inertiajs/vue3";
 import { useQuasar, Loading } from "quasar";
 
 const props = defineProps({
-    status: String,
-    categories: Object,
+    status: {
+        type: String,
+    },
+    categories: {
+        type: Object,
+    },
 });
 
 const columns = [
@@ -56,7 +60,7 @@ function btnDeleteClick(row) {
     <Head title="Category" />
     <AuthenticatedLayout>
         <PageHead title="Category" @btn-add-click="btnAddClick" />
-        <q-card class="!rounded-t-none lg:!rounded-t-sm">
+        <q-card class="!tw-rounded-t-none lg:!tw-rounded-t-sm">
             <app-table
                 :rows="categories.data"
                 :columns="columns"
@@ -67,7 +71,7 @@ function btnDeleteClick(row) {
             >
                 <template v-slot:filter="{ filter }">
                     <q-input
-                        class="w-full md:w-auto"
+                        class="tw-w-full md:tw-w-auto"
                         filled
                         borderless
                         dense

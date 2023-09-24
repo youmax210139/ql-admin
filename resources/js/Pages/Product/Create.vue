@@ -56,9 +56,12 @@ const onSubmit = handleSubmit((form) => {
         <PageHead title="Create Product" :btnAddShow="false" />
         <BreadCrumb :items="breadCrumbs" />
         <q-card
-            class="w-full p-4 bg-white shadow-md overflow-hidden !rounded-t-none rounded-b-sm"
+            class="tw-w-full tw-p-4 tw-bg-white tw-shadow-md tw-overflow-hidden !tw-rounded-t-none tw-rounded-b-sm"
         >
-            <q-form class="grid grid-col-1 gap-y-4" @submit.prevent="onSubmit">
+            <q-form
+                class="tw-grid tw-grid-col-1 tw-gap-y-4"
+                @submit.prevent="onSubmit"
+            >
                 <q-input label="Name" type="text" v-bind="name" />
                 <q-input label="Title" type="text" v-bind="title" />
                 <q-input
@@ -68,11 +71,11 @@ const onSubmit = handleSubmit((form) => {
                     autogrow
                 />
                 <file-uploader label="Photos" v-bind="photos" />
-                <div class="flex items-center justify-end">
+                <div class="tw-flex tw-items-center tw-justify-end">
                     <q-btn
                         label="Submit"
                         type="submit"
-                        class="ml-4 bg-black text-white"
+                        class="tw-ml-4 tw-bg-black tw-text-white"
                         :disable="!meta.valid || isSubmitting"
                     />
                 </div>

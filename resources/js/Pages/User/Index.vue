@@ -55,8 +55,8 @@ function btnDeleteClick(row) {
     <Head title="User" />
     <AuthenticatedLayout>
         <PageHead title="User" @btn-add-click="btnAddClick" />
-        <q-card class="!rounded-t-none lg:!rounded-t-sm">
-            <app-table
+        <q-card class="!tw-rounded-t-none lg:!tw-rounded-t-sm">
+            <AppTable
                 :rows="users.data"
                 :columns="columns"
                 :pagination="users.pagination"
@@ -66,7 +66,7 @@ function btnDeleteClick(row) {
             >
                 <template v-slot:filter="{ filter }">
                     <q-input
-                        class="w-full md:w-auto"
+                        class="tw-w-full md:tw-w-auto"
                         filled
                         borderless
                         dense
@@ -77,7 +77,7 @@ function btnDeleteClick(row) {
                         clear-icon="close"
                     />
                     <q-input
-                        class="w-full md:w-auto"
+                        class="tw-w-full md:tw-w-auto"
                         filled
                         borderless
                         dense
@@ -88,7 +88,7 @@ function btnDeleteClick(row) {
                         clear-icon="close"
                     />
                 </template>
-            </app-table>
+            </AppTable>
         </q-card>
     </AuthenticatedLayout>
 </template>

@@ -46,12 +46,14 @@ const props = defineProps({
 <template>
     <q-uploader
         v-bind="props"
-        class="!w-full"
+        class="!tw-w-full"
         @added="(e) => $emit('update:modelValue', e)"
         @removed="(e) => $emit('update:modelValue', e)"
     >
         <template v-slot:header="scope">
-            <div class="row no-wrap items-center p-2 q-gutter-xs bg-gray-600">
+            <div
+                class="tw-row tw-no-wrap tw-items-center tw-p-2 q-gutter-xs tw-bg-gray-600"
+            >
                 <q-btn
                     v-if="scope.queuedFiles.length > 0"
                     icon="playlist_remove"
@@ -76,7 +78,7 @@ const props = defineProps({
                     v-if="scope.isUploading"
                     class="q-uploader__spinner"
                 />
-                <div class="col">
+                <div class="tw-col">
                     <div class="q-uploader__title">Upload your files</div>
                     <div class="q-uploader__subtitle">
                         {{ scope.uploadSizeLabel }} /
@@ -125,7 +127,7 @@ const props = defineProps({
                     v-show="!file.__removed"
                 >
                     <q-item-section>
-                        <q-item-label class="full-width ellipsis">
+                        <q-item-label class="tw-full-width tw-ellipsis">
                             {{ file.name }}
                         </q-item-label>
                         <q-item-label caption>
@@ -136,7 +138,7 @@ const props = defineProps({
                     <q-item-section v-if="file.__img" thumbnail>
                         <img
                             :src="file.__img.src"
-                            class="!min-h-full !h-auto"
+                            class="!tw-min-h-full !tw-h-auto"
                         />
                     </q-item-section>
 
@@ -153,7 +155,7 @@ const props = defineProps({
                 </q-item>
                 <q-item v-for="file in scope.files" :key="file.__key">
                     <q-item-section>
-                        <q-item-label class="full-width ellipsis">
+                        <q-item-label class="tw-full-width tw-ellipsis">
                             {{ file.name }}
                         </q-item-label>
                         <q-item-label caption>
@@ -164,7 +166,7 @@ const props = defineProps({
                     <q-item-section v-if="file.__img" thumbnail>
                         <img
                             :src="file.__img.src"
-                            class="!min-h-full !h-auto"
+                            class="!tw-min-h-full !tw-h-auto"
                         />
                     </q-item-section>
 

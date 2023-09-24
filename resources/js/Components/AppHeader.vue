@@ -13,12 +13,15 @@ function logout() {
 </script>
 
 <template>
-    <q-header reveal :class="$q.dark.isActive ? 'bg-black' : '!bg-gray-600'">
+    <q-header
+        reveal
+        :class="$q.dark.isActive ? 'tw-bg-black' : '!tw-bg-gray-600'"
+    >
         <q-toolbar>
             <q-btn flat round dense icon="menu" @click="store.toggle()" />
             <q-toolbar-title>Admin Panel</q-toolbar-title>
             <q-btn
-                class="mr-xs"
+                class="tw-mr-xs"
                 flat
                 round
                 @click="$q.dark.toggle()"

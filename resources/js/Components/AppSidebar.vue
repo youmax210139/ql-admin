@@ -1,47 +1,3 @@
-<template>
-    <q-drawer v-model="store.show" show-if-above elevated side="left">
-        <div
-            class="h-full"
-            :class="
-                $q.dark.isActive ? 'bg-black text-white' : 'bg-white text-black'
-            "
-        >
-            <Link href="/" class="flex items-center px-6 py-4">
-                <ApplicationLogo
-                    class="mr-3 w-6 h-6 sm:h-8 sm:w-8 filter-white"
-                    alt="Logo"
-                />
-                <span class="ml-3 text-xl font-semibold whitespace-nowrap">{{
-                    $page.props.appName
-                }}</span>
-            </Link>
-            <q-scroll-area class="h-screen">
-                <q-list>
-                    <q-item
-                        v-for="(item, k) in menus"
-                        :key="k"
-                        active-class="tab-active"
-                        class="q-ma-sm navigation-item"
-                        :href="route(item.link, item.params)"
-                        :class="{
-                            'bg-green-800 rounded-sm text-white':
-                                route().current() == item.link,
-                        }"
-                        clickable
-                        v-ripple
-                    >
-                        <q-item-section avatar>
-                            <q-icon :name="item.icon" />
-                        </q-item-section>
-                        <q-item-section>
-                            {{ item.title }}
-                        </q-item-section>
-                    </q-item>
-                </q-list>
-            </q-scroll-area>
-        </div>
-    </q-drawer>
-</template>
 <script setup>
 import { ref } from "vue";
 import { ApplicationLogo } from "@/Components";
@@ -79,3 +35,51 @@ const menus = ref([
     }
 }
 </style>
+
+<template>
+    <q-drawer v-model="store.show" show-if-above elevated side="left">
+        <div
+            class="tw-h-full"
+            :class="
+                $q.dark.isActive
+                    ? 'tw-bg-black tw-text-white'
+                    : 'tw-bg-white tw-text-black'
+            "
+        >
+            <Link href="/" class="tw-flex tw-items-center tw-px-6 tw-py-4">
+                <ApplicationLogo
+                    class="tw-mr-3 tw-w-6 tw-h-6 sm:tw-h-8 sm:tw-w-8 filter-white"
+                    alt="Logo"
+                />
+                <span
+                    class="tw-ml-3 tw-text-xl tw-font-semibold tw-whitespace-nowrap"
+                    >{{ $page.props.appName }}</span
+                >
+            </Link>
+            <q-scroll-area class="tw-h-screen">
+                <q-list>
+                    <q-item
+                        v-for="(item, k) in menus"
+                        :key="k"
+                        active-class="tw-tab-active"
+                        class="q-ma-sm tw-navigation-item"
+                        :href="route(item.link, item.params)"
+                        :class="{
+                            'tw-bg-green-800 tw-rounded-sm tw-text-white':
+                                route().current() == item.link,
+                        }"
+                        clickable
+                        v-ripple
+                    >
+                        <q-item-section avatar>
+                            <q-icon :name="item.icon" />
+                        </q-item-section>
+                        <q-item-section>
+                            {{ item.title }}
+                        </q-item-section>
+                    </q-item>
+                </q-list>
+            </q-scroll-area>
+        </div>
+    </q-drawer>
+</template>

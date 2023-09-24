@@ -49,14 +49,14 @@ const onSubmit = handleSubmit((form) => {
     <Head title="Login" />
     <GuestLayout>
         <q-card
-            class="w-full sm:max-w-md p-4 bg-white shadow-md overflow-hidden sm:rounded-lg"
+            class="tw-w-full tw-p-4 tw-bg-white tw-shadow-md tw-overflow-hidden sm:tw-rounded-lg sm:tw-max-w-md"
         >
             <q-card-section>
-                <h3 class="text-sm text-center">Log in</h3>
+                <h3 class="tw-text-lg tw-text-center">Log in</h3>
             </q-card-section>
             <q-card-section>
                 <q-form
-                    class="grid grid-col-1 gap-y-4"
+                    class="tw-grid tw-grid-col-1 tw-gap-y-4"
                     @submit.prevent="onSubmit"
                 >
                     <q-input v-bind="email" label="Email" />
@@ -66,18 +66,18 @@ const onSubmit = handleSubmit((form) => {
                         type="password"
                     />
                     <q-checkbox v-bind="remember" label="Remember me" />
-                    <div class="text-right">
+                    <div class="tw-text-right">
                         <a
                             v-if="canResetPassword"
                             :href="route('password.request')"
-                            class="mr-4 underline underline-offset-1 hover:cursor-pointer"
+                            class="tw-mr-4 tw-underline tw-underline-offset-1 hover:tw-cursor-pointer"
                         >
                             Forgot your password?
                         </a>
                         <q-btn
                             label="Log in"
                             type="submit"
-                            class="bg-black text-white"
+                            class="tw-bg-black tw-text-white"
                             :disable="!meta.valid || isSubmitting"
                         />
                     </div>
