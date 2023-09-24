@@ -1,70 +1,81 @@
-<template>
+<script setup>
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+import { Head, router } from "@inertiajs/vue3";
+import { Loading } from "quasar";
+import { useForm } from "vee-validate";
+import * as yup from "yup";
 
+defineProps({
+    status: {
+        type: String,
+    },
+});
+
+const schema = yup.object({
+    email: yup.string().required().email().label("Email address"),
+});
+
+const { meta, defineComponentBinds, handleSubmit, isSubmitting } = useForm({
+    validationSchema: schema,
+    initialValues: {
+        email: "",
+    },
+});
+
+const quasarConfig = (state) => ({
+    props: {
+        error: !!state.errors[0],
+        "error-message": state.errors[0],
+    },
+});
+const email = defineComponentBinds("email", quasarConfig);
+
+const onSubmit = handleSubmit((form) => {
+    console.log(form);
+    Loading.show();
+    router.post(route("password.email"), form);
+});
+</script>
+
+<template>
     <Head title="Forgot Password" />
     <GuestLayout>
-        <q-card class="w-full sm:max-w-md p-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-            <q-card-section class="text-sm text-gray-600 grid grid-col-1 gap-y-4">
-                Forgot your password? No problem. Just let us know your email address and
-                we will email you a password
-                reset link that will allow you to choose a new one.
-                <q-form
-                    class="grid grid-col-1 gap-y-4"
-                    @submit.prevent="submit"
-                    ref="form$"
-                >
-                    <alert-error v-model="form.errors.email" />
-                    <alert-success
-                        v-model="form.recentlySuccessful"
-                        :message="status"
+        <q-card
+            class="tw-w-full tw-p-4 tw-bg-white tw-shadow-md tw-overflow-hidden sm:tw-rounded-lg sm:tw-max-w-md"
+        >
+            <div class="tw-mb-4 tw-text-sm tw-text-gray-600">
+                Forgot your password? No problem. Just let us know your email
+                address and we will email you a password reset link that will
+                allow you to choose a new one.
+            </div>
+
+            <div
+                v-if="status"
+                class="tw-mb-4 tw-font-medium tw-text-sm tw-text-green-600"
+            >
+                {{ status }}
+            </div>
+
+            <q-form @submit.prevent="onSubmit">
+                <q-input
+                    type="email"
+                    label="Email"
+                    class="tw-mt-1 tw-block w-full"
+                    v-bind="email"
+                    required
+                    autofocus
+                    autocomplete="username"
+                />
+
+                <div class="tw-flex tw-items-center tw-justify-end tw-mt-4">
+                    <q-btn
+                        label="Email Password Reset Link"
+                        type="submit"
+                        class="tw-bg-black tw-text-white"
+                        :disable="!meta.valid || isSubmitting"
                     />
-                    <q-input
-                        v-model="form.email"
-                        label="Email"
-                        filled
-                        lazy-rules
-                        :rules="[
-                            $rules.required('Email is required'),
-                            $rules.email('should be email format'),
-                        ]"
-                    />
-                    <div class="flex items-center justify-end">
-                        <q-btn
-                            type="submit"
-                            label="Email Password Reset Link"
-                            :class="{ 'opacity-25': form.processing }"
-                            :disabled="form.processing"
-                            class="bg-black text-white"
-                        />
-                    </div>
-                </q-form>
-            </q-card-section>
+                </div>
+            </q-form>
         </q-card>
     </GuestLayout>
 </template>
-
-<script setup>
-import { AlertError, AlertSuccess } from '@/Components';
-import GuestLayout from '@/Layouts/Guest.vue';
-import { ref } from 'vue'
-import { useQuasar } from 'quasar'
-import { useForm, Head } from '@inertiajs/inertia-vue3';
-
-defineProps({
-    status: String,
-});
-
-const $q = useQuasar();
-const form$ = ref(null);
-const form = useForm({
-    email: '',
-});
-
-const submit = () => {
-    form$.value.validate();
-    form.clearErrors();
-    $q.loading.show();
-    form.post(route('password.email'), {
-        onFinish: () => $q.loading.hide(),
-    });
-};
-</script>

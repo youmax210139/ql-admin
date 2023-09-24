@@ -1,87 +1,102 @@
-<template>
+<script setup>
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+import { Head, router } from "@inertiajs/vue3";
+import { Loading } from "quasar";
+import { useForm } from "vee-validate";
+import * as yup from "yup";
 
+const props = defineProps({
+    email: {
+        type: String,
+        required: true,
+    },
+    token: {
+        type: String,
+        required: true,
+    },
+});
+
+const schema = yup.object({
+    email: yup.string().required().email().label("Email address"),
+    password: yup.string().required().min(8).label("Password"),
+    password_confirmation: yup
+        .string()
+        .required()
+        .min(8)
+        .oneOf([yup.ref("password"), null], "Does not match with password!")
+        .label("Password confirmation"),
+});
+
+const { meta, defineComponentBinds, handleSubmit, isSubmitting } = useForm({
+    validationSchema: schema,
+    initialValues: {
+        token: props.token,
+        email: props.email,
+        password: "",
+        password_confirmation: "",
+    },
+});
+
+const quasarConfig = (state) => ({
+    props: {
+        error: !!state.errors[0],
+        "error-message": state.errors[0],
+    },
+});
+const email = defineComponentBinds("email", quasarConfig);
+const password = defineComponentBinds("password", quasarConfig);
+const password_confirmation = defineComponentBinds(
+    "password_confirmation",
+    quasarConfig
+);
+
+const onSubmit = handleSubmit((form) => {
+    router.post(route("password.store"), form);
+});
+</script>
+
+<template>
     <Head title="Reset Password" />
     <GuestLayout>
-
-        <q-card class="w-full sm:max-w-md p-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-            <q-form
-                class="grid grid-col-1 gap-y-4"
-                @submit.prevent="submit"
-                ref="form$"
-            >
-                <alert-error v-model="form.errors.email" />
-                <alert-error v-model="form.errors.password" />
-                <alert-error v-model="form.errors.password_confirmation" />
+        <q-card
+            class="tw-w-full tw-p-4 tw-bg-white tw-shadow-md tw-overflow-hidden sm:tw-rounded-lg sm:tw-max-w-md"
+        >
+            <q-form @submit.prevent="onSubmit">
                 <q-input
-                    label="Email"
                     type="email"
-                    v-model="form.email"
-                    lazy-rules
-                    :rules="[
-                        $rules.required('Email is required'),
-                        $rules.email('should be email format'),
-                    ]"
+                    label="Email"
+                    class="tw-mt-1 tw-block w-full"
+                    :model-value="email.modelValue"
+                    readonly
+                    required
+                    autofocus
+                    autocomplete="username"
                 />
                 <q-input
                     label="Password"
                     type="password"
-                    v-model="form.password"
-                    lazy-rules
-                    :rules="[
-                        $rules.required('Password is required'),
-                    ]"
+                    class="tw-mt-1 tw-block tw-w-full"
+                    v-bind="password"
+                    required
+                    autocomplete="new-password"
                 />
                 <q-input
                     label="Confirm Password"
                     type="password"
-                    v-model="form.password_confirmation"
-                    lazy-rules
-                    :rules="[
-                        $rules.required('Confirm Password is required'),
-                        $rules.sameAs(form.password, 'Confirm Password should be same as password field'),
-                    ]"
+                    class="tw-mt-1 tw-block tw-w-full"
+                    v-bind="password_confirmation"
+                    required
+                    autocomplete="new-password"
                 />
-                <div class="flex items-center justify-end">
+                <div class="tw-flex tw-items-center tw-justify-end mt-4">
                     <q-btn
-                        type="submit"
                         label="Reset Password"
-                        class="bg-black text-white"
-                        :disabled="form.processing"
+                        type="submit"
+                        class="tw-bg-black tw-text-white"
+                        :disable="!meta.valid || isSubmitting"
                     />
                 </div>
             </q-form>
         </q-card>
     </GuestLayout>
 </template>
-<script setup>
-import { AlertError } from '@/Components';
-import GuestLayout from '@/Layouts/Guest.vue';
-import { ref } from 'vue'
-import { useQuasar } from 'quasar'
-import { Head, useForm } from '@inertiajs/inertia-vue3';
-
-const props = defineProps({
-    email: String,
-    token: String,
-});
-
-const $q = useQuasar();
-const form$ = ref(null);
-const form = useForm({
-    token: props.token,
-    email: props.email,
-    password: '',
-    password_confirmation: '',
-});
-
-const submit = () => {
-    form$.value.validate();
-    form.clearErrors();
-    $q.loading.show();
-    form.post(route('password.update'), {
-        onFinish: () => $q.loading.hide(),
-    });
-};
-</script>
-
-

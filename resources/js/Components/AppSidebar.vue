@@ -27,14 +27,6 @@ const menus = ref([
     },
 ]);
 </script>
-<style lang="scss" scoped>
-.bg-black.text-white {
-    .filter-white {
-        filter: invert(100%) sepia(10%) saturate(0%) hue-rotate(0deg)
-            brightness(100%) contrast(100%);
-    }
-}
-</style>
 
 <template>
     <q-drawer v-model="store.show" show-if-above elevated side="left">
@@ -48,7 +40,7 @@ const menus = ref([
         >
             <Link href="/" class="tw-flex tw-items-center tw-px-6 tw-py-4">
                 <ApplicationLogo
-                    class="tw-mr-3 tw-w-6 tw-h-6 sm:tw-h-8 sm:tw-w-8 filter-white"
+                    class="tw-mr-3 tw-w-6 tw-h-6 sm:tw-h-8 sm:tw-w-8"
                     alt="Logo"
                 />
                 <span
