@@ -45,7 +45,7 @@ const menus = ref([
                 />
                 <span
                     class="tw-ml-3 tw-text-xl tw-font-semibold tw-whitespace-nowrap"
-                    >{{ $page.props.appName }}</span
+                    >{{ $appName }}</span
                 >
             </Link>
             <q-scroll-area class="tw-h-screen">

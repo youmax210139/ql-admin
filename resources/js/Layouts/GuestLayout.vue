@@ -6,11 +6,12 @@ import { ApplicationLogo } from "@/Components";
     <q-layout
         class="tw-min-h-screen tw-flex tw-flex-col tw-items-center tw-pt-6 tw-px-4 tw-bg-gray-100 sm:tw-justify-center sm:tw-pt-0"
     >
-        <div class="tw-mb-6">
+        <div class="tw-mb-6 tw-text-center tw-text-lg">
             <Link href="/">
                 <ApplicationLogo
                     class="tw-w-20 tw-h-20 tw-mx-auto tw-text-gray-500"
                 />
+                {{ $appName }}
             </Link>
         </div>
         <slot />

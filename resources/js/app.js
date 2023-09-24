@@ -60,6 +60,7 @@ createInertiaApp({
         ),
     setup({ el, App, props, plugin }) {
         const myapp = createApp({ render: () => h(App, props) });
+        //init plugins
         myapp.use(plugin);
         myapp.use(ZiggyVue, Ziggy);
         const pinia = createPinia();
@@ -79,7 +80,9 @@ createInertiaApp({
                 },
             },
         });
-        myapp.mount(el);
+        //init global variable
+        myapp.config.globalProperties.$appName = appName
+        //init global error handler
         myapp.config.errorHandler = function (err, vm, info) {
             console.log(err);
             Notify.create({
@@ -88,6 +91,8 @@ createInertiaApp({
             });
             Loading.hide();
         };
+        //mount app
+        myapp.mount(el);
 
         return myapp;
     },
