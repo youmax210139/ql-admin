@@ -7,8 +7,12 @@ import { useForm } from "vee-validate";
 import * as yup from "yup";
 
 const props = defineProps({
-    status: String,
-    product: Object,
+    status: {
+        type: String,
+    },
+    product: {
+        type: Object,
+    },
 });
 
 const breadCrumbs = [
@@ -22,15 +26,14 @@ const schema = yup.object({
     description: yup.string().label("Description"),
 });
 
-const { meta, defineComponentBinds, handleSubmit, isSubmitting, defineModel } =
-    useForm({
-        validationSchema: schema,
-        initialValues: {
-            ...props.product,
-            uploads: [],
-            _method: "put",
-        },
-    });
+const { meta, defineComponentBinds, handleSubmit, isSubmitting } = useForm({
+    validationSchema: schema,
+    initialValues: {
+        ...props.product,
+        uploads: [],
+        _method: "put",
+    },
+});
 
 const quasarConfig = (state) => ({
     props: {
@@ -45,7 +48,6 @@ const photos = defineComponentBinds("photos", quasarConfig);
 const uploads = defineComponentBinds("uploads", quasarConfig);
 
 const onSubmit = handleSubmit((form) => {
-    console.log(form);
     Loading.show();
     router.post(route("product.update", props.product.id), form);
 });

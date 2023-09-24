@@ -15,16 +15,34 @@ import "quasar/src/css/index.sass";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
-router.on("success", () => {
+router.on("success", (e) => {
+    console.log(e)
+    let msg = "Success";
+    switch (e.constructor) {
+        case CustomEvent: {
+            msg = e.detail.page.props.status;
+            break;
+        }
+    }
     Notify.create({
-        message: "Success",
+        message: msg,
         type: "positive",
     });
 });
 
-router.on("error", (errors) => {
+router.on("error", (e) => {
+    console.log(e);
+    let msg = "Error";
+    switch (e.constructor) {
+        case CustomEvent: {
+            msg = Object.values(e.detail.errors)[0];
+            break;
+        }
+        // default:
+        //     msg = Object.values(e)[0];
+    }
     Notify.create({
-        message: Object.values(errors)[0],
+        message: msg,
         type: "negative",
     });
 });
@@ -62,6 +80,14 @@ createInertiaApp({
             },
         });
         myapp.mount(el);
+        myapp.config.errorHandler = function (err, vm, info) {
+            console.log(err);
+            Notify.create({
+                message: info,
+                type: "negative",
+            });
+            Loading.hide();
+        };
 
         return myapp;
     },
