@@ -16,13 +16,16 @@ import "quasar/src/css/index.sass";
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 router.on("success", (e) => {
-    console.log(e)
+    console.log(e);
     let msg = "Success";
     switch (e.constructor) {
         case CustomEvent: {
             msg = e.detail.page.props.status;
             break;
         }
+    }
+    if (!msg) {
+        return;
     }
     Notify.create({
         message: msg,

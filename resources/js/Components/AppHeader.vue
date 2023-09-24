@@ -1,17 +1,14 @@
 <script setup>
-import { useQuasar } from "quasar";
-import { useForm } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
+import { useQuasar, Loading } from "quasar";
 import { useSidebarStore } from "@/Stores/sidebar";
 
 const $q = useQuasar();
-const form = useForm({});
 const store = useSidebarStore();
 
 function logout() {
-    $q.loading.show();
-    form.post(route("logout"), {
-        onFinish: () => $q.loading.hide(),
-    });
+    Loading.show();
+    router.post(route("logout"));
 }
 </script>
 
