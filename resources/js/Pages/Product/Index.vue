@@ -60,7 +60,7 @@
 <script setup>
 import AppTable from "@/Components/AppTable.vue";
 import PageHead from "@/Components/PageHead.vue";
-import AuthenticatedLayout from "@/Layouts/Authenticated.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, router } from "@inertiajs/vue3";
 import { useQuasar } from "quasar";
 
@@ -91,11 +91,11 @@ const columns = [
 const $q = useQuasar();
 
 function btnAddClick() {
-    window.location = route("products.create");
+    window.location = route("product.create");
 }
 
 function btnEditClick(row) {
-    window.location = route("products.edit", row.id);
+    window.location = route("product.edit", row.id);
 }
 
 function btnDeleteClick(row) {
@@ -106,7 +106,7 @@ function btnDeleteClick(row) {
         persistent: true,
     }).onOk(() => {
         router.post(
-            route("products.destroy", row.id),
+            route("product.destroy", row.id),
             {
                 _method: "delete",
                 last: props.products.total == props.products.from,

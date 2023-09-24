@@ -1,7 +1,7 @@
 <script setup>
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head, router } from "@inertiajs/vue3";
-import { useQuasar, Notify } from "quasar";
+import { Loading } from "quasar";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 
@@ -13,7 +13,6 @@ defineProps({
         type: String,
     },
 });
-const $q = useQuasar();
 
 const schema = yup.object({
     email: yup.string().required().email().label("Email address"),
@@ -41,18 +40,8 @@ const password = defineComponentBinds("password", quasarConfig);
 const remember = defineComponentBinds("remember", quasarConfig);
 
 const onSubmit = handleSubmit((form) => {
-    $q.loading.show();
-    router.post(route("login"), form, {
-        onFinish: () => {
-            $q.loading.hide();
-        },
-        onError(err) {
-            Notify.create({
-                message: Object.values(err)[0],
-                type: "negative",
-            });
-        },
-    });
+    Loading.show();
+    router.post(route("login"), form);
 });
 </script>
 
@@ -88,8 +77,8 @@ const onSubmit = handleSubmit((form) => {
                         <q-btn
                             label="Log in"
                             type="submit"
-                            :disable="!meta.valid || isSubmitting"
                             class="bg-black text-white"
+                            :disable="!meta.valid || isSubmitting"
                         />
                     </div>
                 </q-form>
