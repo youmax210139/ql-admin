@@ -1,3 +1,48 @@
+<script setup>
+const props = defineProps({
+    modelValue: {
+        type: Array,
+        default: [],
+    },
+    preview: {
+        type: Array,
+        default: [],
+    },
+    accept: {
+        type: String,
+        default: ".jpg,.jpeg,.png",
+    },
+    label: {
+        type: String,
+        default: "Pick one file",
+    },
+    clearable: {
+        type: Boolean,
+        default: true,
+    },
+    maxFiles: {
+        type: [Number, String],
+        default: 5,
+    },
+    maxFileSize: {
+        type: [Number, String],
+        default: 5 * 1024 * 1024,
+    },
+    maxTotalSize: {
+        type: [Number, String],
+        default: 25 * 1024 * 1024,
+    },
+    multiple: {
+        type: Boolean,
+        default: true,
+    },
+    flat: {
+        type: Boolean,
+        default: true,
+    },
+});
+</script>
+
 <template>
     <q-uploader
         v-bind="props"
@@ -75,8 +120,9 @@
         <template v-slot:list="scope">
             <q-list separator>
                 <q-item
-                    v-for="file in props.preview?.filter((v) => !v.__removed)"
+                    v-for="file in props.preview"
                     :key="file.__key"
+                    v-show="!file.__removed"
                 >
                     <q-item-section>
                         <q-item-label class="full-width ellipsis">
@@ -137,47 +183,3 @@
         </template>
     </q-uploader>
 </template>
-<script setup>
-const props = defineProps({
-    modelValue: {
-        type: Array,
-        default: [],
-    },
-    preview: {
-        type: Array,
-        default: [],
-    },
-    accept: {
-        type: String,
-        default: ".jpg,.png",
-    },
-    label: {
-        type: String,
-        default: "Pick one file",
-    },
-    clearable: {
-        type: Boolean,
-        default: true,
-    },
-    maxFiles: {
-        type: [Number, String],
-        default: 5,
-    },
-    maxFileSize: {
-        type: [Number, String],
-        default: 5 * 1024 * 1024,
-    },
-    maxTotalSize: {
-        type: [Number, String],
-        default: 25 * 1024 * 1024,
-    },
-    multiple: {
-        type: Boolean,
-        default: true,
-    },
-    flat: {
-        type: Boolean,
-        default: true,
-    },
-});
-</script>

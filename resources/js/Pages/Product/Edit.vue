@@ -22,13 +22,15 @@ const schema = yup.object({
     description: yup.string().label("Description"),
 });
 
-const { meta, defineComponentBinds, handleSubmit, isSubmitting } = useForm({
-    validationSchema: schema,
-    initialValues: {
-        ...props.product,
-        _method: "put",
-    },
-});
+const { meta, defineComponentBinds, handleSubmit, isSubmitting, defineModel } =
+    useForm({
+        validationSchema: schema,
+        initialValues: {
+            ...props.product,
+            uploads: [],
+            _method: "put",
+        },
+    });
 
 const quasarConfig = (state) => ({
     props: {
@@ -40,6 +42,7 @@ const name = defineComponentBinds("name", quasarConfig);
 const title = defineComponentBinds("title", quasarConfig);
 const description = defineComponentBinds("description", quasarConfig);
 const photos = defineComponentBinds("photos", quasarConfig);
+const uploads = defineComponentBinds("uploads", quasarConfig);
 
 const onSubmit = handleSubmit((form) => {
     console.log(form);
@@ -67,8 +70,8 @@ const onSubmit = handleSubmit((form) => {
                 />
                 <file-uploader
                     label="Photos"
-                    v-bind="photos"
-                    v-model:preview="props.product.photos"
+                    v-bind="uploads"
+                    v-bind:preview="photos.modelValue"
                 />
                 <div class="flex items-center justify-end">
                     <q-btn

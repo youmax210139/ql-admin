@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Products/Index', [
+        return Inertia::render('Product/Index', [
             'status' => session('status'),
             'products' => QueryBuilder::for(Product::class)
                 ->allowedFilters([
@@ -34,7 +34,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        return Inertia::render('Products/Create', [
+        return Inertia::render('Product/Create', [
             'status' => session('status'),
         ]);
     }
@@ -47,6 +47,7 @@ class ProductController extends Controller
                 'title' => ['required', 'max:100'],
                 'description' => ['required', 'max:100'],
                 'photos' => ['required', 'array', 'max:5'],
+                'photos.*' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             ]) + [
                 'status' => 0,
                 'price' => count(request()->photos) * 5
@@ -54,8 +55,11 @@ class ProductController extends Controller
         );
         $photos = [];
         foreach (request()->file('photos') as $photo) {
-            $path = $photo->store('/images/' . $product->name, ['disk' =>   'local']);
-            $photos[] = route('files.show', $path);
+            $photos[] = $photo->storeAs(
+                '/images/' . $product->id,
+                $photo->getClientOriginalName(),
+                'local'
+            );
         }
         $product->photos = $photos;
         $product->save();
@@ -71,14 +75,14 @@ class ProductController extends Controller
             return [
                 '__key' => $filename,
                 'name' => $filename,
-                '__sizeLabel' => bytesToHuman(Storage::size(str_replace(env('APP_URL') . '/files', '', $v))),
+                '__sizeLabel' => bytesToHuman(Storage::size(str_replace(env('APP_URL') . '/file', '', $v))),
                 '__img' => [
-                    'src' => $v
+                    'src' => route('file.show', $v)
                 ]
             ];
         });
 
-        return Inertia::render('Products/Edit', [
+        return Inertia::render('Product/Edit', [
             'status' => session('status'),
             'product' => $product,
         ]);
@@ -91,24 +95,29 @@ class ProductController extends Controller
             'title' => ['required', 'max:100'],
             'description' => ['required', 'max:100'],
             'photos' => ['array', 'max:5'],
-            'preview' => ['array', 'max:5'],
+            'uploads' => ['array', 'max:5'],
+            'uploads.*' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
         ]);
         $product->name = request()->name;
         $product->title = request()->title;
         $product->description = request()->description;
-        $photos = $product->photos;
-        foreach (request()->get('preview', []) as $photo) {
+        $photos = [];
+        // remove preview photos
+        foreach (request()->get('photos', []) as $photo) {
+            $filename = '/images/' . $product->id . '/' . $photo['__key'];
             if (isset($photo['__removed'])) {
-                $pos = array_search($photo['__img']['src'], $photos);
-                if ($pos !== false) {
-                    array_splice($photos, $pos, 1);
-                    Storage::disk('local')->delete('/images/' . $product->name . '/' . $photo['__key']);
-                }
+                Storage::disk('local')->delete($filename);
+            } else {
+                $photos[] = $filename;
             }
         }
-        foreach (request()->file('photos', []) as $photo) {
-            $path = $photo->store('/images/' . $product->name, ['disk' =>   'local']);
-            $photos[] = route('files.show', $path);
+        // add upload images
+        foreach (request()->file('uploads', []) as $photo) {
+            $photos[] = $photo->storeAs(
+                '/images/' . $product->id,
+                $photo->getClientOriginalName(),
+                'local'
+            );
         }
         $product->photos = $photos;
         $product->save();
@@ -127,6 +136,6 @@ class ProductController extends Controller
             $params['page'] = 1;
         }
 
-        return to_route('products.index', $params)->with('status', __('status.destroy'));
+        return to_route('product.index', $params)->with('status', __('status.destroy'));
     }
 }
