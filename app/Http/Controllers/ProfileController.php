@@ -2,38 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Inertia\Inertia;
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\Rules;
-use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ProfileController extends Controller
 {
     /**
-     * Show the profile view.
-     *
-     * @return \Inertia\Response
+     * Display the user's profile form.
      */
-    public function index()
+    public function edit(Request $request): Response
     {
-        return Inertia::render('Profile', [
+        return Inertia::render('Profile/Edit', [
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);
     }
 
-    public function store(Request $request)
+    /**
+     * Update the user's profile information.
+     */
+    public function update(ProfileUpdateRequest $request): RedirectResponse
+    {
+        $request->user()->fill($request->validated());
+
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
+        }
+
+        $request->user()->save();
+
+        return Redirect::route('profile.edit');
+    }
+
+    /**
+     * Delete the user's account.
+     */
+    public function destroy(Request $request): RedirectResponse
     {
         $request->validate([
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'current_password'],
         ]);
 
-        $user = auth()->user();
-        $user->password = $request->password;
-        $user->save();
-        event(new PasswordReset($user));
+        $user = $request->user();
 
-        return back()->with('status', __(Password::PASSWORD_RESET));
+        Auth::logout();
+
+        $user->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return Redirect::to('/');
     }
 }
